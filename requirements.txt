@@ -1,0 +1,5 @@
+#####
+# Requirements for running teamgame
+#####
+
+pygame==1.9.5
