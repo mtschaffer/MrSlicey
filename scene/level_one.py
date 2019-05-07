@@ -5,8 +5,7 @@ from utils.text import Text
 watermelon = Watermelon()
 hello = Text("Hi, I'm Mr Slicey!", 100, 100)
 
-
-def draw(screen, ticks):
+def draw(screen):
     # Draw text
     if state.time < 5000:
         hello.draw(screen)

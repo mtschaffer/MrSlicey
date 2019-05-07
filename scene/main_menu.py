@@ -9,7 +9,7 @@ subtext = Text("...quest for the rest of the melon", 0, 150)
 next_text = Text("Hit Space to Enter the Wonderful World!", 200, 300)
 
 
-def draw(screen, tick):
+def draw(screen):
     welcome.draw(screen)
     subtext.draw(screen)
     next_text.draw(screen)
