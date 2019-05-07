@@ -6,7 +6,6 @@ from scene import state
 #2) Can't remove other contributors' features
 #3) You can add a single feature on your turn
 #4) Feature must make the game "more fun"
-WHITE = (0xFF, 0xFF, 0xFF)
 
 def main():
     pygame.init()

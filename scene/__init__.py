@@ -50,7 +50,6 @@ class SceneState:
 
     def loop(self, lag_scalar, screen):
         # Get the complete keyboard state
-
         keystate = pygame.key.get_pressed()
         current_scene = self.current_scene
 
@@ -58,17 +57,12 @@ class SceneState:
             pygame.quit()
             sys.exit()
 
-        ticks = pygame.time.get_ticks()
-
         current_scene.input(keystate)
-
         current_scene.update(lag_scalar)
 
         # Start drawing this frame by painting the whole thing black
         screen.fill((0, 0, 0))
-
-        current_scene.draw(screen, ticks)
-
+        current_scene.draw(screen)
         pygame.display.flip()
 
 
