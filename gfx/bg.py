@@ -23,7 +23,7 @@ class ParallaxLayer:
 class ParallaxBackground:
 
     # blit a sequence of images onto the background
-    # scroll each layer
+    # scroll each layer at a different rate
     def __init__(self, size=None):
         self.layers = []
         self.size = size
