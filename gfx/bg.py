@@ -39,6 +39,7 @@ class ParallaxBackground:
             screen.blit(layer.surface, (0, 0), (layer.posx, layer.posy, sw, sh))
             # tile the layer horizontally if its factor_x is nonzero
             # tile the layer vertically if its factor_y is nonzero
+            # this makes the modulus positioning used in ParallaxLayer.scroll seamless
             lw, lh = layer.surface.get_width(), layer.surface.get_height()
             if layer.factor_x:
                 screen.blit(layer.surface, (0, 0), (layer.posx - lw, layer.posy, sw, sh))
