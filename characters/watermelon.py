@@ -2,20 +2,22 @@ import os
 
 import pygame
 
+from utils.fg_element import FGElement
+
 IMAGE_PATH = os.path.join('images', 'watermelon.png')
 
 
-class Watermelon:
-
+class Watermelon(FGElement):
     # Load the watermelon image and stick it in the middle of the screen
     def __init__(self):
-        self.image = pygame.image.load(IMAGE_PATH).convert_alpha()
-        self.x = 320
-        self.y = 240
-
-        self.move_speed = 4.0
-        self.move_x = 0
-        self.move_y = 0
+        super().__init__(
+            image_path=IMAGE_PATH,
+            x=320,
+            y=240,
+            speed=4.0,
+            move_x=0,
+            move_y=0
+        )
 
     # Read the keystate so we can move
     def input(self, keystate):
