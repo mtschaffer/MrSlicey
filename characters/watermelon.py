@@ -2,12 +2,14 @@ import os
 
 import pygame
 
+IMAGE_PATH = os.path.join('images', 'watermelon.png')
+
 
 class Watermelon:
 
     # Load the watermelon image and stick it in the middle of the screen
     def __init__(self):
-        self.image = pygame.image.load(os.path.join('images', 'watermelon.png')).convert_alpha()
+        self.image = pygame.image.load(IMAGE_PATH).convert_alpha()
         self.x = 320
         self.y = 240
 
