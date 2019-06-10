@@ -1,9 +1,12 @@
 import pygame
 
+from utils.fg_element import FGElement
+
+
 WHITE = (0xFF, 0xFF, 0xFF)
 
 
-class Text:
+class Text(FGElement):
     def __init__(self, text, x, y):
         self.x = x
         self.y = y

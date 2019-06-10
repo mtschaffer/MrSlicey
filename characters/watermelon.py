@@ -2,21 +2,31 @@ import os
 
 import pygame
 
+from scene import state
+from utils.fg_element import FGElement
+from weapons.seed import Seed
 
-class Watermelon:
+IMAGE_PATH = os.path.join('images', 'watermelon.png')
 
+
+class Watermelon(FGElement):
     # Load the watermelon image and stick it in the middle of the screen
-    def __init__(self):
-        self.image = pygame.image.load(os.path.join('images', 'watermelon.png')).convert_alpha()
-        self.x = 320
-        self.y = 240
+    def __init__(self, seed_inventory=0):
+        super().__init__(
+            image_path=IMAGE_PATH,
+            x=320,
+            y=240,
+            speed=4.0,
+            move_x=0,
+            move_y=0
+        )
 
-        self.move_speed = 4.0
-        self.move_x = 0
-        self.move_y = 0
+        self.seed_inventory = seed_inventory
+        self.seed_fire_cooldown = 200
+        self.seed_last_fired = 1000
 
     # Read the keystate so we can move
-    def input(self, keystate):
+    def input(self, model, keystate):
         self.move_x = 0
         if keystate[pygame.K_LEFT]:
             self.move_x = -self.move_speed
@@ -28,6 +38,21 @@ class Watermelon:
             self.move_y = -self.move_speed
         elif keystate[pygame.K_DOWN]:
             self.move_y = self.move_speed
+
+        if keystate[pygame.K_SPACE]:
+            self.fire_seed(model)
+
+    def fire_seed(self, model):
+        if (state.time - self.seed_last_fired > self.seed_fire_cooldown and
+                self.seed_inventory > 0):
+            self.seed_last_fired = state.time
+            self.seed_inventory -= 1
+
+            # TODO: we could set momentum based on watermelon orientation
+            # TODO: set the x cooridinate based on self.x + self.width / 2
+            seed = Seed(x=self.x + 10, y=self.y, momentum_y=-10)
+            model.add_fg_element(seed)
+
 
     # Move the watermelon
     def update(self, lag_scalar):
