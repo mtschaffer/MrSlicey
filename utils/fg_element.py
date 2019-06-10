@@ -12,7 +12,7 @@ class FGElement(object):
         self.move_x = move_x
         self.move_y = move_y
 
-    def input(self, keystate):
+    def input(self, model, keystate):
         pass
 
     def update(self, lag_scalar):

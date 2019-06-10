@@ -2,6 +2,7 @@ from characters.watermelon import Watermelon
 from gfx.bg import ParallaxBackground
 from scene import state
 from utils.text import Text
+from weapons.seed import Seed
 
 
 class LevelOneModel:
@@ -16,14 +17,14 @@ class LevelOneModel:
 
     def __init__(self):
         ## Foreground
-        # A dict of all on-screen elements
-        self._fg_elements = {}
+        # A list of all on-screen elements.
+        self.fg_elements = []
 
-        self.watermelon = Watermelon()
-        self.add_fg_element('watermelon', self.watermelon)
+        self.watermelon = Watermelon(seed_inventory=30)
+        self.add_fg_element(self.watermelon)
 
         self.hello = Text("Hi, I'm Mr Slicey!", 100, 100)
-        self.add_fg_element('hello', self.hello)
+        self.add_fg_element(self.hello)
 
         ## Background
         # this set of background images is 272 x 160
@@ -42,23 +43,18 @@ class LevelOneModel:
             0, self.bg_size)
 
     def all_fg_elements(self):
-        return self._fg_elements.values()
+        return self.fg_elements
 
-    def add_fg_element(self, name, value):
-        self._fg_elements[name] = value
+    def add_fg_element(self, value):
+        self.fg_elements.append(value)
 
-    def remove_fg_element(self, name):
-        element = self._fg_elements.get(name)
-        if name in self._fg_elements:
-            del self._fg_elements[name]
+    def remove_fg_element(self, element):
+        if element in self.fg_elements:
+            self.fg_elements.remove(element)
 
 
 def draw(screen):
     model = LevelOneModel.instance()
-
-    # Remove Text after such time
-    if state.time > 5000:
-        model.remove_fg_element('hello')
 
     model.background.draw(screen)
 
@@ -73,10 +69,16 @@ def update(lag_scalar):
     # Update the background
     model.background.update(lag_scalar)
 
+    # Remove hello text
+    if state.time > 5000 and model.hello:
+        model.remove_fg_element(model.hello)
+        model.hello = None
+
     # Update our player and objects
     for e in model.all_fg_elements():
         e.update(lag_scalar)
 
+    # TODO: remove elements no longer on screen?
 
 def input(keystate):
     model = LevelOneModel.instance()
@@ -86,4 +88,4 @@ def input(keystate):
 
     # Send the keyboard input so our hero can react
     for e in model.all_fg_elements():
-        e.input(keystate)
+        e.input(model, keystate)
