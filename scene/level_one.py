@@ -76,7 +76,7 @@ def update(lag_scalar):
 
     # Update our player and objects
     for e in model.all_fg_elements():
-        e.update(lag_scalar)
+        e.update(model, lag_scalar)
 
     # TODO: remove elements no longer on screen?
 

@@ -11,6 +11,6 @@ class Projectile(FGElement):
 
         super().__init__(*args, **kwargs)
 
-    def update(self, lag_scalar):
+    def update(self, model, lag_scalar):
         self.x = self.x + (self.move_x + self.momentum_x) * lag_scalar
         self.y = self.y + (self.move_y + self.momentum_y) * lag_scalar

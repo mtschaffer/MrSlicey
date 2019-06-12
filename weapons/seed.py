@@ -18,5 +18,4 @@ class Seed(Projectile):
         self.image = pygame.transform.scale(self.image, (10, 10))
 
     def draw(self, screen):
-        screen.blit(self.image, (int(self.x), int(self.y), 10, 10), (0, 0, 10, 10))
-
+        screen.blit(self.image, (int(self.x - 5), int(self.y - 5), 10, 10), (0, 0, 10, 10))
