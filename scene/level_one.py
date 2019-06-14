@@ -23,7 +23,7 @@ class LevelOneModel:
         self.watermelon = Watermelon(seed_inventory=30)
         self.add_fg_element(self.watermelon)
 
-        self.hello = Text("Hi, I'm Mr Slicey!", 100, 100)
+        self.hello = Text("Hi, I'm Mr Slicey!", 320, 150, center=True)
         self.add_fg_element(self.hello)
 
         ## Background
@@ -76,7 +76,7 @@ def update(lag_scalar):
 
     # Update our player and objects
     for e in model.all_fg_elements():
-        e.update(lag_scalar)
+        e.update(model, lag_scalar)
 
     # TODO: remove elements no longer on screen?
 
