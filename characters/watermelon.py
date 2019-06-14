@@ -29,7 +29,8 @@ class Watermelon(FGElement):
 
         self.input_fire_seed = False
         self.move_angle = 0
-        self.angle_speed = 2.0
+
+        self.rotation_speed = 2.0
         self.acceleration = 0.5
         self.max_velocity = 10.0
 
@@ -47,26 +48,27 @@ class Watermelon(FGElement):
 
     # Read the keystate so we can move
     def input(self, model, keystate):
-        self.move_x = 0
-        self.move_y = 0
-        self.move_angle = 0
+        self.reset_buffered_input()
 
         if keystate[pygame.K_LEFT]:
-            self.move_angle = self.angle_speed
+            self.move_angle = self.rotation_speed
         elif keystate[pygame.K_RIGHT]:
-            self.move_angle = -self.angle_speed
+            self.move_angle = -self.rotation_speed
 
         if keystate[pygame.K_UP]:
-            self.velocity += self.acceleration
-            if self.velocity > self.max_velocity:
-                self.velocity = self.max_velocity
+            self.move_velocity = self.acceleration
         elif keystate[pygame.K_DOWN]:
-            self.velocity -= self.acceleration
-            if self.velocity < -self.max_velocity:
-                self.velocity = -self.max_velocity
+            self.move_velocity = -self.acceleration
 
         if keystate[pygame.K_SPACE]:
             self.input_fire_seed = True
+
+    def reset_buffered_input(self):
+        self.move_x = 0
+        self.move_y = 0
+        self.move_angle = 0
+        self.move_velocity = 0
+        self.input_fire_seed = False
 
     def fire_seed(self, model, seed_velocity):
         if (state.time - self.seed_last_fired > self.seed_fire_cooldown and
@@ -90,8 +92,9 @@ class Watermelon(FGElement):
     # Move the watermelon
     def update(self, model, lag_scalar):
         self.angle = self.angle + self.move_angle * lag_scalar
-
         self.set_orientation_vector()
+
+        self.velocity = max(min(self.max_velocity, self.velocity + self.move_velocity), -self.max_velocity)
 
         self.move_x = self.velocity * self.orientation_vector_x
         self.move_y = self.velocity * self.orientation_vector_y
@@ -100,11 +103,14 @@ class Watermelon(FGElement):
         self.y = self.y + self.move_y * lag_scalar
 
         if self.input_fire_seed:
-            self.input_fire_seed = False
-            self.fire_seed(model, self.velocity + 10)
+            self.fire_seed(model, max(-2, self.velocity) + 10)
 
+        self.animate_flame()
+
+    def animate_flame(self):
+        velocity_based_animation_rate = 2 - int(abs(self.velocity) / 4)
         self.flame_frame_timer += 1
-        if self.flame_frame_timer > 1:
+        if self.flame_frame_timer > velocity_based_animation_rate:
             self.flame_frame_timer = 0
             self.flame_frame += 1
             if self.flame_frame > 3:
@@ -116,27 +122,40 @@ class Watermelon(FGElement):
 
     # Draw the watermelon and heath bar and potentialy game over
     def draw(self, screen):
+        self.draw_player(screen)
+        self.draw_flame(screen)
+
+        # TODO: Move these displays to a HUD class
+        self.draw_hud(screen)
+
+        # TODO: add a new scene for the game over screen
+        if self.health <= 0:
+            game_over.draw(screen)
+
+    def draw_player(self, screen):
         rotated_image = pygame.transform.rotate(self.image, self.angle - 180)
         w, h = rotated_image.get_size()
-
         screen.blit(rotated_image, (int(self.x - w / 2), int(self.y - h / 2)))
 
-        rotated_image = pygame.transform.rotate(self.flame_image.subsurface(self.flame_frame * 20, 0, 20, 20), self.angle - 180)
+    def draw_flame(self, screen):
+        image_height = int(abs(self.velocity)) + 10
+        flame_subsurface = self.flame_image.subsurface(self.flame_frame * 20, 20 - image_height, 20, image_height)
+        rotated_image = pygame.transform.rotate(flame_subsurface, self.angle - 180)
         w, h = rotated_image.get_size()
 
-        screen.blit(rotated_image, (int(self.x - 23 * self.orientation_vector_x - w / 2),
-            int(self.y - 23 * self.orientation_vector_y - h / 2)))
+        distance_from_center = (20 + int(abs(self.velocity) / 2))
+        screen.blit(rotated_image, (int(self.x - distance_from_center * self.orientation_vector_x - w / 2),
+            int(self.y - distance_from_center * self.orientation_vector_y - h / 2)))
 
+    def draw_hud(self, screen):
         #health bar
         pygame.draw.rect(screen, (255, 0, 0), (10, 10, 100, 10))
         if self.health > 0:
             pygame.draw.rect(screen, (0, 255, 0), (10, 10, 100 * self.health / self.max_health, 10))
 
         #velocity bar
-        pygame.draw.rect(screen, (255, 0, 0), (10, 300, 10, 100))
-        velocity_bar_height = 100 * abs(self.velocity) / self.max_velocity
-        pygame.draw.rect(screen, (0, 255, 0), (10, 400 - velocity_bar_height, 10, velocity_bar_height))
-
-        # TODO: add a new scene for the game over screen
-        if self.health <= 0:
-            game_over.draw(screen)
+        pygame.draw.rect(screen, (255, 0, 0), (10, 370, 10, 100))
+        bar_height = 100 * abs(self.velocity) / self.max_velocity
+        if bar_height > 0:
+            color = (0, 255, 0) if self.velocity > 0 else (255, 192, 0)
+            pygame.draw.rect(screen, color, (10, 470 - bar_height, 10, bar_height))
