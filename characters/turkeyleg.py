@@ -2,14 +2,14 @@ import os
 
 import pygame
 
-from utils.fg_element import FGElement
+from utils.sprite import Sprite
 
 
 IMAGE_PATH = os.path.join('images', 'turkeyleg.png')
 IMAGE = pygame.image.load(IMAGE_PATH).convert_alpha()
 
 
-class TurkeyLeg(FGElement):
+class TurkeyLeg(Sprite):
     def __init__(self, x, y, angle, rotational_velocity):
         super().__init__(
             image=IMAGE,

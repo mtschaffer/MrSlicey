@@ -1,10 +1,5 @@
-import pygame
-
-
 class FGElement(object):
-    def __init__(self, image, x=0, y=0, angle=0, velocity=0, move_x=0, move_y=0):
-        self.image = pygame.image.load(image).convert_alpha() if isinstance(image, str) else image
-
+    def __init__(self, x=0, y=0, angle=0, velocity=0, move_x=0, move_y=0):
         self.x = x
         self.y = y
 

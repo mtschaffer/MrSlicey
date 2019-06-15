@@ -5,7 +5,7 @@ import pygame
 
 from utils.text import Text
 from scene import state
-from utils.fg_element import FGElement
+from utils.sprite import Sprite
 from weapons.seed import Seed
 
 IMAGE_PATH = os.path.join('images', 'watermelon.png')
@@ -13,7 +13,7 @@ IMAGE_PATH = os.path.join('images', 'watermelon.png')
 game_over = Text("GAME OVER", 250, 200)
 
 
-class Watermelon(FGElement):
+class Watermelon(Sprite):
     # Load the watermelon image and stick it in the middle of the screen
     def __init__(self, seed_inventory=0):
         super().__init__(
