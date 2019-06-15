@@ -13,7 +13,7 @@ class Seed(Projectile):
         num = randint(1, 5)
         image_path = IMAGE_PATH_BASE + '/seed{}.png'.format(num)
 
-        super().__init__(*args, image_path=image_path, **kwargs)
+        super().__init__(*args, image=image_path, **kwargs)
 
         self.image = pygame.transform.scale(self.image, (10, 10))
 

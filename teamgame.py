@@ -16,9 +16,7 @@ def main():
     clock = pygame.time.Clock()
 
     #VGA resolution sounds about right
-    screen_width = 640
-    screen_height = 480
-    screen = pygame.display.set_mode((screen_width, screen_height))
+    screen = pygame.display.set_mode((state.SCREEN_WIDTH, state.SCREEN_HEIGHT))
 
     #Let's aim for 30 frames/second
     fps = 30
@@ -37,4 +35,5 @@ def main():
         lag_scalar = msElapsed * fps / 1000.0
 
 
-main()
+if __name__ == '__main__':
+    main()

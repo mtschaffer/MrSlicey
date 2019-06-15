@@ -1,4 +1,7 @@
+from random import randint
+
 from characters.watermelon import Watermelon
+from characters.turkeyleg import TurkeyLeg, IMAGE as TURKEY_IMAGE
 from gfx.bg import ParallaxBackground
 from scene import state
 from utils.text import Text
@@ -26,11 +29,13 @@ class LevelOneModel:
         self.hello = Text("Hi, I'm Mr Slicey!", 320, 150, center=True)
         self.add_fg_element(self.hello)
 
+        self.add_obstacles()
+
         ## Background
         # this set of background images is 272 x 160
         # apply hardcoded 4x scale to for now
         self.bg_size = (272 * 4, 160 * 4)
-        self.background = ParallaxBackground((640, 480))
+        self.background = ParallaxBackground((state.SCREEN_WIDTH, state.SCREEN_HEIGHT))
         self.background.add_layer('parallax-mountain-bg.png', 3, 0,
             self.bg_size)
         self.background.add_layer('parallax-mountain-montain-far.png', 2, 0,
@@ -51,6 +56,16 @@ class LevelOneModel:
     def remove_fg_element(self, element):
         if element in self.fg_elements:
             self.fg_elements.remove(element)
+
+    def add_obstacles(self):
+        num_turkeys = randint(4, 10)
+        w, h = TURKEY_IMAGE.get_size()
+        for i in range(num_turkeys):
+            x = randint(w, state.SCREEN_WIDTH - w)
+            y = randint(h, state.SCREEN_HEIGHT - h)
+            angle = randint(0, 359)
+            rot_v = randint(-45, 45)
+            self.add_fg_element(TurkeyLeg(x=x, y=y, angle=angle, rotational_velocity=rot_v))
 
 
 def draw(screen):

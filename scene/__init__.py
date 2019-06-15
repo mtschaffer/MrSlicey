@@ -27,6 +27,9 @@ def _quit(keystate):
 
 
 class SceneState:
+    SCREEN_WIDTH = 640
+    SCREEN_HEIGHT = 480
+
     def __init__(self):
         self.current_scene = None
         self._scene_cache = {}

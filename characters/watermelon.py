@@ -12,14 +12,15 @@ IMAGE_PATH = os.path.join('images', 'watermelon.png')
 
 game_over = Text("GAME OVER", 250, 200)
 
+
 class Watermelon(FGElement):
     # Load the watermelon image and stick it in the middle of the screen
     def __init__(self, seed_inventory=0):
         super().__init__(
-            image_path=IMAGE_PATH,
+            image=IMAGE_PATH,
             x=320,
             y=240,
-            angle = 180,
+            angle=180,
             velocity=1.0,
             move_x=0,
             move_y=0
@@ -148,12 +149,12 @@ class Watermelon(FGElement):
             int(self.y - distance_from_center * self.orientation_vector_y - h / 2)))
 
     def draw_hud(self, screen):
-        #health bar
+        # health bar
         pygame.draw.rect(screen, (255, 0, 0), (10, 10, 100, 10))
         if self.health > 0:
             pygame.draw.rect(screen, (0, 255, 0), (10, 10, 100 * self.health / self.max_health, 10))
 
-        #velocity bar
+        # velocity bar
         pygame.draw.rect(screen, (255, 0, 0), (10, 370, 10, 100))
         bar_height = 100 * abs(self.velocity) / self.max_velocity
         if bar_height > 0:
