@@ -12,18 +12,21 @@ controls1_text = Text("Left/Right Arrows - Rotate", 50, 230)
 controls2_text = Text("Up/Down Arrows - Speed", 50, 260)
 controls3_text = Text("Spacebar - Shoot", 50, 290)
 
+
 def draw(screen):
     welcome.draw(screen)
     subtext.draw(screen)
     next_text.draw(screen)
-    
+
     controls1_text.draw(screen)
     controls2_text.draw(screen)
     controls3_text.draw(screen)
 
+
 def update(lag_scalar):
     pass
 
-def input(keystate):
+
+def input(keystate, event=None):
     if keystate[pygame.K_SPACE]:
         state.load_scene('level_one')

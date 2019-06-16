@@ -34,6 +34,7 @@ class Watermelon(Sprite):
         self.rotation_speed = 2.0
         self.acceleration = 0.5
         self.max_velocity = 10.0
+        self.move_velocity = 0
 
         self.seed_inventory = seed_inventory
         self.seed_fire_cooldown = 200

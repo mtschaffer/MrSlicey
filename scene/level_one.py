@@ -1,6 +1,8 @@
 from itertools import combinations
 from random import randint
 
+import pygame
+
 from characters.watermelon import Watermelon
 from characters.turkeyleg import TurkeyLeg, IMAGE as TURKEY_IMAGE
 from gfx.bg import ParallaxBackground
@@ -24,6 +26,7 @@ class LevelOneModel:
         # A list of all on-screen elements.
         self.fg_elements = []
         self.colliders = []
+        self.show_colliders = False
 
         self.watermelon = Watermelon(seed_inventory=30)
         self.add_fg_element(self.watermelon)
@@ -104,8 +107,12 @@ def update(lag_scalar):
 
     # TODO: remove elements no longer on screen?
 
-def input(keystate):
+
+def input(keystate, event=None):
     model = LevelOneModel.instance()
+
+    if event and event.type == pygame.KEYUP and keystate[pygame.K_c]:
+        model.show_colliders = not model.show_colliders
 
     # pass queued player movements to the background so it can scroll as the player moves
     model.background.scroll(model.watermelon.move_x, model.watermelon.move_y)

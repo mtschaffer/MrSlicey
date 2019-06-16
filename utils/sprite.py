@@ -12,6 +12,9 @@ class Sprite(FGElement):
         self.image = pygame.image.load(image).convert_alpha() if isinstance(image, str) else image
         self.collider = Collider(self)
 
+    def update(self, model, lag_scalar):
+        self.collider.visible = model.show_colliders
+
     def draw(self, screen):
         self.collider.draw(screen)
 
