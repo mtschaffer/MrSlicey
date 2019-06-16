@@ -12,8 +12,9 @@ class Projectile(Sprite):
     def update(self, model, lag_scalar):
         self.x += (self.move_x + self.momentum_x) * lag_scalar
         self.y += (self.move_y + self.momentum_y) * lag_scalar
-        if (self.x < -self.bounding_radius
-            or self.x > (state.SCREEN_WIDTH + self.bounding_radius)
-            or self.y < -self.bounding_radius
-            or self.y > (state.SCREEN_HEIGHT + self.bounding_radius)):
+        radius = self.collider.radius
+        if (self.x < -radius
+            or self.x > (state.SCREEN_WIDTH + radius)
+            or self.y < -radius
+            or self.y > (state.SCREEN_HEIGHT + radius)):
             model.remove_fg_element(self)
