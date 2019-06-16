@@ -19,4 +19,5 @@ class Sprite(FGElement):
 
     def _calculate_bounding_radius(self):
         w, h = self.image.get_size()
-        self.bounding_radius = int(math.sqrt((w ** 2) + (h ** 2)) / 2)
+        # NOTE: take 80% of true radius to give collisions some fudge-factor
+        self.bounding_radius = int((math.sqrt((w ** 2) + (h ** 2)) / 2) * 0.8)
