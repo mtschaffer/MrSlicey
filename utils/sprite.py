@@ -23,7 +23,7 @@ class Collider:
     def __init__(self, sprite):
         self.collided = self.visible = False
         self.sprite = weakref.ref(sprite)
-        self.update_dims()
+        self.update_size()
 
     @property
     def center(self):
@@ -39,7 +39,7 @@ class Collider:
         pygame.draw.circle(s, color, (self.radius, self.radius), self.radius)
         screen.blit(s, self.center)
 
-    def update_dims(self):
+    def update_size(self):
         bounds_x, bounds_y = self.sprite().image.get_size()
         # NOTE: take 80% of true radius to give collisions some fudge-factor
         self.radius = int((math.sqrt((bounds_x ** 2) + (bounds_y ** 2)) / 2) * 0.8)

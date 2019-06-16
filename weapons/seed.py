@@ -17,7 +17,7 @@ class Seed(Projectile):
         super().__init__(*args, image=image_path, **kwargs)
 
         self.image = pygame.transform.scale(self.image, (10, 10))
-        self.collider.update_dims()
+        self.collider.update_size()
 
     def draw(self, screen):
         super().draw(screen)
