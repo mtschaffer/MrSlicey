@@ -1,3 +1,4 @@
+from scene import state
 from utils.sprite import Sprite
 
 
@@ -9,5 +10,10 @@ class Projectile(Sprite):
         super().__init__(*args, **kwargs)
 
     def update(self, model, lag_scalar):
-        self.x = self.x + (self.move_x + self.momentum_x) * lag_scalar
-        self.y = self.y + (self.move_y + self.momentum_y) * lag_scalar
+        self.x += (self.move_x + self.momentum_x) * lag_scalar
+        self.y += (self.move_y + self.momentum_y) * lag_scalar
+        if (self.x < -self.bounding_radius
+            or self.x > (state.SCREEN_WIDTH + self.bounding_radius)
+            or self.y < -self.bounding_radius
+            or self.y > (state.SCREEN_HEIGHT + self.bounding_radius)):
+            model.remove_fg_element(self)

@@ -24,6 +24,7 @@ class TurkeyLeg(Sprite):
 
     def update(self, model, lag_scalar):
         self.angle += (self.rotational_velocity * lag_scalar)
+        self.angle %= (360 if self.angle > 0 else -360)
 
     def draw(self, screen):
         super().draw(screen)
