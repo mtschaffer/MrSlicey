@@ -59,7 +59,7 @@ class SceneState:
             if _quit(keystate, event):
                 pygame.quit()
                 sys.exit()
-            current_scene.input(keystate, event)
+            current_scene.handle_events(keystate, event)
 
         # Handle ongoing input even when there are no events
         current_scene.input(keystate)
