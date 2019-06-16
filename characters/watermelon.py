@@ -123,6 +123,7 @@ class Watermelon(Sprite):
 
     # Draw the watermelon and heath bar and potentialy game over
     def draw(self, screen):
+        super().draw(screen)
         self.draw_player(screen)
         self.draw_flame(screen)
 

@@ -26,6 +26,7 @@ class TurkeyLeg(Sprite):
         self.angle += (self.rotational_velocity * lag_scalar)
 
     def draw(self, screen):
+        super().draw(screen)
         rotated_image = pygame.transform.rotate(self.image, self.angle)
         w, h = rotated_image.get_size()
         screen.blit(rotated_image, (int(self.x - w / 2), int(self.y - h / 2)))

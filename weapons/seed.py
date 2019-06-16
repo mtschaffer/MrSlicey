@@ -5,6 +5,7 @@ import pygame
 
 from .projectile import Projectile
 
+
 IMAGE_PATH_BASE = os.path.join('images', 'seeds')
 
 
@@ -16,6 +17,8 @@ class Seed(Projectile):
         super().__init__(*args, image=image_path, **kwargs)
 
         self.image = pygame.transform.scale(self.image, (10, 10))
+        self._calculate_bounding_radius()
 
     def draw(self, screen):
+        super().draw(screen)
         screen.blit(self.image, (int(self.x - 5), int(self.y - 5), 10, 10), (0, 0, 10, 10))
