@@ -1,3 +1,4 @@
+from itertools import combinations
 from random import randint
 
 from characters.watermelon import Watermelon
@@ -22,6 +23,7 @@ class LevelOneModel:
         ## Foreground
         # A list of all on-screen elements.
         self.fg_elements = []
+        self.colliders = []
 
         self.watermelon = Watermelon(seed_inventory=30)
         self.add_fg_element(self.watermelon)
@@ -52,10 +54,14 @@ class LevelOneModel:
 
     def add_fg_element(self, value):
         self.fg_elements.append(value)
+        if hasattr(value, 'collider'):
+            self.colliders.append(value.collider)
 
     def remove_fg_element(self, element):
         if element in self.fg_elements:
             self.fg_elements.remove(element)
+        if hasattr(element, 'collider') and element.collider in self.colliders:
+            self.colliders.remove(element.collider)
 
     def add_obstacles(self):
         num_turkeys = randint(4, 10)
@@ -92,6 +98,9 @@ def update(lag_scalar):
     # Update our player and objects
     for e in model.all_fg_elements():
         e.update(model, lag_scalar)
+
+    for c1, c2 in combinations(model.colliders, 2):
+        c1.collide(c2)
 
     # TODO: remove elements no longer on screen?
 

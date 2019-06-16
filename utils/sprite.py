@@ -35,3 +35,6 @@ class Collider:
         bounds_x, bounds_y = self.bounds = self.sprite().image.get_size()
         # NOTE: take 80% of true radius to give collisions some fudge-factor
         self.radius = int((math.sqrt((bounds_x ** 2) + (bounds_y ** 2)) / 2) * 0.8)
+
+    def collide(self, collider):
+        pass
