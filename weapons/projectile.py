@@ -10,6 +10,7 @@ class Projectile(Sprite):
         super().__init__(*args, **kwargs)
 
     def update(self, model, lag_scalar):
+        super().update(model, lag_scalar)
         self.x += (self.move_x + self.momentum_x) * lag_scalar
         self.y += (self.move_y + self.momentum_y) * lag_scalar
         radius = self.collider.radius

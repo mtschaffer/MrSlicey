@@ -92,6 +92,7 @@ class Watermelon(Sprite):
 
     # Move the watermelon
     def update(self, model, lag_scalar):
+        super().update(model, lag_scalar)
         self.angle = self.angle + self.move_angle * lag_scalar
         self.set_orientation_vector()
 

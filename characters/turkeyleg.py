@@ -23,6 +23,7 @@ class TurkeyLeg(Sprite):
         self.rotational_velocity = rotational_velocity
 
     def update(self, model, lag_scalar):
+        super().update(model, lag_scalar)
         self.angle += (self.rotational_velocity * lag_scalar)
         self.angle %= (360 if self.angle > 0 else -360)
 
