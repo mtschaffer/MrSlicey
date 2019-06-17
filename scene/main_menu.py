@@ -11,6 +11,7 @@ next_text = Text("Hit Space to Enter the Wonderful World!", 320, 400, center=Tru
 controls1_text = Text("Left/Right Arrows - Rotate", 50, 230)
 controls2_text = Text("Up/Down Arrows - Speed", 50, 260)
 controls3_text = Text("Spacebar - Shoot", 50, 290)
+controls4_text = Text("(Debug): c - Toggle visible hitboxes", 50, 320)
 
 
 def draw(screen):
@@ -21,6 +22,7 @@ def draw(screen):
     controls1_text.draw(screen)
     controls2_text.draw(screen)
     controls3_text.draw(screen)
+    controls4_text.draw(screen)
 
 
 def update(lag_scalar):
