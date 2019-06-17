@@ -5,8 +5,9 @@ import pygame
 
 from utils.text import Text
 from scene import state
-from utils.sprite import Sprite
+from utils.sprite import Sprite, Collider
 from weapons.seed import Seed
+from utils.collision import CollisionEffect
 
 IMAGE_PATH = os.path.join('images', 'watermelon.png')
 
@@ -48,6 +49,14 @@ class Watermelon(Sprite):
 
         self.set_orientation_vector()
 
+    def set_collider(self):
+        self.collider = Collider(self, reaction=self.collided)
+
+    def collided(self, collider, effect):
+        if effect == CollisionEffect.Halt:
+            self.acceleration = self.move_velocity = self.velocity = self.health = 0
+            collider.collided = True
+
     # Read the keystate so we can move
     def input(self, model, keystate):
         self.reset_buffered_input()
@@ -84,12 +93,15 @@ class Watermelon(Sprite):
             momentum_x = seed_velocity * self.orientation_vector_x
             momentum_y = seed_velocity * self.orientation_vector_y
 
-            seed = Seed(x=self.x + watermelon_top_x, y=self.y + watermelon_top_y,
+            seed = Seed(self, x=self.x + watermelon_top_x, y=self.y + watermelon_top_y,
                 momentum_x=momentum_x, momentum_y=momentum_y)
             model.add_fg_element(seed)
 
             if self.health > 0:
                 self.health -= 10
+
+    def projectile_hit(self):
+        self.health = min(self.health + 15, self.max_health)
 
     # Move the watermelon
     def update(self, model, lag_scalar):

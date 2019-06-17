@@ -7,6 +7,7 @@ from characters.watermelon import Watermelon
 from characters.turkeyleg import TurkeyLeg, IMAGE as TURKEY_IMAGE
 from gfx.bg import ParallaxBackground
 from scene import state
+from utils.collision import collide
 from utils.text import Text
 from weapons.seed import Seed
 
@@ -103,7 +104,7 @@ def update(lag_scalar):
         e.update(model, lag_scalar)
 
     for c1, c2 in combinations(model.colliders, 2):
-        c1.collide(c2)
+        collide(c1, c2)
 
     # TODO: remove elements no longer on screen?
 

@@ -4,12 +4,16 @@ import weakref
 import pygame
 
 from .fg_element import FGElement
+from .collision import CollisionEffect
 
 
 class Sprite(FGElement):
     def __init__(self, image, x=0, y=0, angle=0, velocity=0, move_x=0, move_y=0):
         super().__init__(x=x, y=y, angle=angle, velocity=velocity, move_x=move_x, move_y=move_y)
         self.image = pygame.image.load(image).convert_alpha() if isinstance(image, str) else image
+        self.set_collider()
+
+    def set_collider(self):
         self.collider = Collider(self)
 
     def update(self, model, lag_scalar):
@@ -20,8 +24,10 @@ class Sprite(FGElement):
 
 
 class Collider:
-    def __init__(self, sprite):
+    def __init__(self, sprite, effect=None, reaction=None):
         self.collided = self.visible = False
+        self.effect = effect or CollisionEffect.Nothing
+        self.reaction = reaction or (lambda *a, **k: None)
         self.sprite = weakref.ref(sprite)
         self.update_size()
 
@@ -44,11 +50,5 @@ class Collider:
         # NOTE: take 80% of true radius to give collisions some fudge-factor
         self.radius = int((math.sqrt((bounds_x ** 2) + (bounds_y ** 2)) / 2) * 0.8)
 
-    def collide(self, collider):
-        my_x, my_y = self.center
-        their_x, their_y = collider.center
-        a = my_x - their_x
-        b = my_y - their_y
-        distance = math.sqrt((a ** 2) + (b ** 2))
-        if distance < (self.radius + collider.radius):
-            self.collided = collider.collided = True
+    def react(self, effect):
+        self.reaction(self, effect)
