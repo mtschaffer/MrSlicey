@@ -7,20 +7,21 @@ from importlib import import_module
 import pygame
 
 
-def _quit(keystate, event):
+def _quit(keystate):
     alt_held = keystate[pygame.K_LALT] or keystate[pygame.K_RALT]
     ctrl_held = keystate[pygame.K_LCTRL] or keystate[pygame.K_RCTRL]
 
     # Read some key events to see if we need to quit
-    if event.type == pygame.QUIT:
-        return True
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_c and ctrl_held:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
             return True
-        if event.key == pygame.K_F4 and alt_held:
-            return True
-        if event.key == pygame.K_ESCAPE:
-            return True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_c and ctrl_held:
+                return True
+            if event.key == pygame.K_F4 and alt_held:
+                return True
+            if event.key == pygame.K_ESCAPE:
+                return True
 
     return False
 
@@ -56,10 +57,9 @@ class SceneState:
         keystate = pygame.key.get_pressed()
         current_scene = self.current_scene
 
-        for event in pygame.event.get():
-            if _quit(keystate, event):
-                pygame.quit()
-                sys.exit()
+        if _quit(keystate):
+            pygame.quit()
+            sys.exit()
 
         # Handle ongoing input even when there are no events
         current_scene.input(keystate, self.previous_keystate)
