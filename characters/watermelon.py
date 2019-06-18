@@ -107,6 +107,7 @@ class Watermelon(Sprite):
     def update(self, model, lag_scalar):
         super().update(model, lag_scalar)
         self.angle = self.angle + self.move_angle * lag_scalar
+        self.angle %= 360
         self.set_orientation_vector()
 
         self.velocity = max(min(self.max_velocity, self.velocity + self.move_velocity), -self.max_velocity)

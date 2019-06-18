@@ -112,8 +112,6 @@ def update(lag_scalar):
     for c1, c2 in combinations(model.colliders, 2):
         collide(c1, c2)
 
-    # TODO: remove elements no longer on screen?
-
 
 def input(keystate, previous_keystate):
     model = LevelOneModel.instance()
