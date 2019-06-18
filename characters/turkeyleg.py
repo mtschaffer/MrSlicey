@@ -30,13 +30,15 @@ class TurkeyLeg(Sprite):
     def collided(self, collider, effect):
         if effect == CollisionEffect.Destroy:
             self.destroyed = True
+        elif effect == CollisionEffect.Halt:
+            pass    # do nothing if colliding with a fellow halter
         else:
             collider.collided = True
 
     def update(self, model, lag_scalar):
         super().update(model, lag_scalar)
         self.angle += (self.rotational_velocity * lag_scalar)
-        self.angle %= (360 if self.angle > 0 else -360)
+        self.angle %= 360
         if self.destroyed:
             model.remove_fg_element(self)
 
