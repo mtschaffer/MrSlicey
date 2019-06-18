@@ -33,7 +33,7 @@ class Collider:
 
     @property
     def center(self):
-        return int(self.sprite().x - self.radius), int(self.sprite().y - self.radius)
+        return int(self.sprite().x), int(self.sprite().y)
 
     def draw(self, screen):
         if not self.visible:
@@ -41,9 +41,9 @@ class Collider:
         diameter = self.radius * 2
         s = pygame.Surface((diameter, diameter), pygame.SRCALPHA)
         color = (255, 255, 0, 128) if self.collided else (128, 0, 128, 128)
-        c_x, c_y = self.center
         pygame.draw.circle(s, color, (self.radius, self.radius), self.radius)
-        screen.blit(s, self.center)
+        c_x, c_y = self.center
+        screen.blit(s, (c_x - self.radius, c_y - self.radius))
 
     def update_size(self):
         bounds_x, bounds_y = self.sprite().image.get_size()
