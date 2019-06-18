@@ -115,15 +115,11 @@ def update(lag_scalar):
     # TODO: remove elements no longer on screen?
 
 
-def handle_events(keystate, event):
+def input(keystate, previous_keystate):
     model = LevelOneModel.instance()
 
-    if event and event.type == pygame.KEYUP and keystate[pygame.K_c]:
+    if keystate[pygame.K_c] and (not previous_keystate or not previous_keystate[pygame.K_c]):
         model.show_colliders = not model.show_colliders
-
-
-def input(keystate):
-    model = LevelOneModel.instance()
 
     # pass queued player movements to the background so it can scroll as the player moves
     model.background.scroll(model.watermelon.move_x, model.watermelon.move_y)

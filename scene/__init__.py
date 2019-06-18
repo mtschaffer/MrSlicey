@@ -33,6 +33,7 @@ class SceneState:
         self.current_scene = None
         self._scene_cache = {}
         self._scene_time_stamp = 0
+        self.previous_keystate = None
 
     def load_scene(self, scene_name):
         if scene_name not in self._scene_cache:
@@ -59,11 +60,11 @@ class SceneState:
             if _quit(keystate, event):
                 pygame.quit()
                 sys.exit()
-            current_scene.handle_events(keystate, event)
 
         # Handle ongoing input even when there are no events
-        current_scene.input(keystate)
+        current_scene.input(keystate, self.previous_keystate)
         current_scene.update(lag_scalar)
+        self.previous_keystate = keystate
 
         # Start drawing this frame by painting the whole thing black
         screen.fill((0, 0, 0))

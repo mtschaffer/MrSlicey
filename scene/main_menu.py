@@ -29,10 +29,6 @@ def update(lag_scalar):
     pass
 
 
-def handle_events(keystate, event):
-    pass
-
-
-def input(keystate):
+def input(keystate, previous_keystate):
     if keystate[pygame.K_SPACE]:
         state.load_scene('level_one')
