@@ -29,13 +29,13 @@ class LevelOneModel:
         self.colliders = []
         self.show_colliders = False
 
+        self.add_obstacles()
+
         self.watermelon = Watermelon(seed_inventory=30)
         self.add_fg_element(self.watermelon)
 
         self.hello = Text("Hi, I'm Mr Slicey!", 320, 150, center=True)
         self.add_fg_element(self.hello)
-
-        self.add_obstacles()
 
         ## Background
         # this set of background images is 272 x 160
@@ -68,14 +68,20 @@ class LevelOneModel:
             self.colliders.remove(element.collider)
 
     def add_obstacles(self):
-        num_turkeys = randint(4, 10)
         w, h = TURKEY_IMAGE.get_size()
-        for i in range(num_turkeys):
-            x = randint(w, state.SCREEN_WIDTH - w)
-            y = randint(h, state.SCREEN_HEIGHT - h)
-            angle = randint(0, 359)
-            rot_v = randint(-45, 45)
-            self.add_fg_element(TurkeyLeg(x=x, y=y, angle=angle, rotational_velocity=rot_v))
+        # NOTE: place obstacles in 5x5 grid
+        x_step = state.SCREEN_WIDTH // 5
+        y_step = state.SCREEN_HEIGHT // 5
+        for grid_x in range(0, state.SCREEN_WIDTH, x_step):
+            for grid_y in range(0, state.SCREEN_HEIGHT, y_step):
+                # NOTE: skip the square the player is spawned in
+                if grid_x == 2 * x_step and grid_y == 2 * y_step:
+                    continue
+                x = grid_x + randint(0, x_step - 1)
+                y = grid_y + randint(0, y_step - 1)
+                angle = randint(0, 359)
+                rot_v = randint(-45, 45)
+                self.add_fg_element(TurkeyLeg(x=x, y=y, angle=angle, rotational_velocity=rot_v))
 
 
 def draw(screen):
