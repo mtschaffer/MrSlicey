@@ -49,8 +49,8 @@ class Watermelon(Sprite):
 
         self.set_orientation_vector()
 
-    def set_collider(self):
-        self.collider = Collider(self, reaction=self.collided)
+    def create_collider(self):
+        return Collider(self, reaction=self.collided)
 
     def collided(self, collider, effect):
         if effect == CollisionEffect.Halt:

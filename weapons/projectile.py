@@ -14,8 +14,8 @@ class Projectile(Sprite):
 
         super().__init__(*args, **kwargs)
 
-    def set_collider(self):
-        self.collider = Collider(self, effect=CollisionEffect.Destroy, reaction=self.collided)
+    def create_collider(self):
+        return Collider(self, effect=CollisionEffect.Destroy, reaction=self.collided)
 
     def collided(self, collider, effect):
         if effect == CollisionEffect.Halt:

@@ -24,8 +24,8 @@ class TurkeyLeg(Sprite):
         self.rotational_velocity = rotational_velocity
         self.destroyed = False
 
-    def set_collider(self):
-        self.collider = Collider(self, effect=CollisionEffect.Halt, reaction=self.collided)
+    def create_collider(self):
+        return Collider(self, effect=CollisionEffect.Halt, reaction=self.collided)
 
     def collided(self, collider, effect):
         if effect == CollisionEffect.Destroy:
