@@ -5,21 +5,23 @@ import pygame
 
 from utils.text import Text
 from scene import state
-from utils.fg_element import FGElement
+from utils.sprite import Sprite, Collider
 from weapons.seed import Seed
+from utils.collision import CollisionEffect
 
 IMAGE_PATH = os.path.join('images', 'watermelon.png')
 
 game_over = Text("GAME OVER", 250, 200)
 
-class Watermelon(FGElement):
+
+class Watermelon(Sprite):
     # Load the watermelon image and stick it in the middle of the screen
     def __init__(self, seed_inventory=0):
         super().__init__(
-            image_path=IMAGE_PATH,
+            image=IMAGE_PATH,
             x=320,
             y=240,
-            angle = 180,
+            angle=180,
             velocity=1.0,
             move_x=0,
             move_y=0
@@ -33,6 +35,7 @@ class Watermelon(FGElement):
         self.rotation_speed = 2.0
         self.acceleration = 0.5
         self.max_velocity = 10.0
+        self.move_velocity = 0
 
         self.seed_inventory = seed_inventory
         self.seed_fire_cooldown = 200
@@ -45,6 +48,14 @@ class Watermelon(FGElement):
         self.flame_frame_timer = 0
 
         self.set_orientation_vector()
+
+    def create_collider(self):
+        return Collider(self, reaction=self.collided)
+
+    def collided(self, collider, effect):
+        if effect == CollisionEffect.Halt:
+            self.acceleration = self.move_velocity = self.velocity = self.health = 0
+            collider.collided = True
 
     # Read the keystate so we can move
     def input(self, model, keystate):
@@ -82,16 +93,21 @@ class Watermelon(FGElement):
             momentum_x = seed_velocity * self.orientation_vector_x
             momentum_y = seed_velocity * self.orientation_vector_y
 
-            seed = Seed(x=self.x + watermelon_top_x, y=self.y + watermelon_top_y,
+            seed = Seed(self, x=self.x + watermelon_top_x, y=self.y + watermelon_top_y,
                 momentum_x=momentum_x, momentum_y=momentum_y)
             model.add_fg_element(seed)
 
             if self.health > 0:
                 self.health -= 10
 
+    def projectile_hit(self):
+        self.health = min(self.health + 15, self.max_health)
+
     # Move the watermelon
     def update(self, model, lag_scalar):
+        super().update(model, lag_scalar)
         self.angle = self.angle + self.move_angle * lag_scalar
+        self.angle %= 360
         self.set_orientation_vector()
 
         self.velocity = max(min(self.max_velocity, self.velocity + self.move_velocity), -self.max_velocity)
@@ -122,6 +138,7 @@ class Watermelon(FGElement):
 
     # Draw the watermelon and heath bar and potentialy game over
     def draw(self, screen):
+        super().draw(screen)
         self.draw_player(screen)
         self.draw_flame(screen)
 
@@ -148,12 +165,12 @@ class Watermelon(FGElement):
             int(self.y - distance_from_center * self.orientation_vector_y - h / 2)))
 
     def draw_hud(self, screen):
-        #health bar
+        # health bar
         pygame.draw.rect(screen, (255, 0, 0), (10, 10, 100, 10))
         if self.health > 0:
             pygame.draw.rect(screen, (0, 255, 0), (10, 10, 100 * self.health / self.max_health, 10))
 
-        #velocity bar
+        # velocity bar
         pygame.draw.rect(screen, (255, 0, 0), (10, 370, 10, 100))
         bar_height = 100 * abs(self.velocity) / self.max_velocity
         if bar_height > 0:
