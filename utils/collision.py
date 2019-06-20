@@ -21,7 +21,3 @@ class CollisionEffect(enum.Enum):
     Nothing = enum.auto()
     Halt = enum.auto()
     Destroy = enum.auto()
-
-
-def null_reaction(collider, effect):
-    pass
