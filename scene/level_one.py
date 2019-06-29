@@ -3,6 +3,7 @@ from random import randint
 
 import pygame
 
+from camera.camera import Camera
 from characters.watermelon import Watermelon
 from characters.turkeyleg import TurkeyLeg, IMAGE as TURKEY_IMAGE
 from gfx.bg import ParallaxBackground
@@ -52,6 +53,8 @@ class LevelOneModel:
             self.bg_size)
         self.background.add_layer('parallax-mountain-foreground-trees.png', 1.1,
             0, self.bg_size)
+        
+        self.camera = Camera(self.watermelon, self.fg_elements)
 
     def all_fg_elements(self):
         return self.fg_elements
@@ -99,6 +102,9 @@ def update(lag_scalar):
 
     # Update the background
     model.background.update(lag_scalar)
+    
+    # Update the camera
+    model.camera.update()
 
     # Remove hello text
     if state.time > 5000 and model.hello:
