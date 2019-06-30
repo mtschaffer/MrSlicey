@@ -26,5 +26,5 @@ class Projectile(Sprite):
         self.x += (self.move_x + self.momentum_x) * lag_scalar
         self.y += (self.move_y + self.momentum_y) * lag_scalar
         radius = self.collider.radius
-        if self.impacted:  # TODO remove projectile if it travels outside level
+        if self.impacted:  # TODO: If level size is finite, remove projectile if it travels outside level.
             model.remove_fg_element(self)
