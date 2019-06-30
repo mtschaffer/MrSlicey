@@ -163,7 +163,7 @@ class Watermelon(Sprite):
 
         distance_from_center = (20 + int(abs(self.velocity) / 2))
         camera.blit(rotated_image, (int(self.x - distance_from_center * self.orientation_vector_x - w / 2),
-                    int(self.y - distance_from_center * self.orientation_vector_y - h / 2)))
+            int(self.y - distance_from_center * self.orientation_vector_y - h / 2)))
 
     def draw_hud(self, screen):
         # health bar
