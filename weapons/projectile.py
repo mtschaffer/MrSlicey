@@ -1,6 +1,5 @@
 import weakref
 
-from scene import state
 from utils.collision import CollisionEffect
 from utils.sprite import Sprite, Collider
 
@@ -27,9 +26,5 @@ class Projectile(Sprite):
         self.x += (self.move_x + self.momentum_x) * lag_scalar
         self.y += (self.move_y + self.momentum_y) * lag_scalar
         radius = self.collider.radius
-        if (self.impacted
-            or self.x < -radius
-            or self.x > (state.SCREEN_WIDTH + radius)
-            or self.y < -radius
-            or self.y > (state.SCREEN_HEIGHT + radius)):
+        if self.impacted:  # TODO remove projectile if it travels outside level
             model.remove_fg_element(self)

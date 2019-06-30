@@ -1,26 +1,25 @@
-class Camera:
-    def __init__(self, target, fg_elements):
-        self.target = target
-        self.fg_elements = fg_elements
-        self.x0 = target.x
-        self.y0 = target.y
-        self.dx = 0
-        self.dy = 0
+class Camera():
+    def __init__(self):
+        self._target = None
+        self._screen = None
+        self._x0 = 0
+        self._y0 = 0
         
-    def _calculate_offset(self):
-        self.dx = self.target.x - self.x0
-        self.dy = self.target.y - self.y0
-    
-    def _center_target(self):
-        self.target.x = self.x0
-        self.target.y = self.y0
+    def set_screen(self, screen):
+        self._screen = screen
         
-    def _update_fg_positions(self):
-        for fg in self.fg_elements:
-            fg.x -= self.dx
-            fg.y -= self.dy
+    def set_target(self, target):
+        self._target = target
+        self._x0 = target.x
+        self._y0 = target.y
 
-    def update(self):
-        self._calculate_offset()
-        self._update_fg_positions()
-        self._center_target()
+    def blit(self, source, dest, area=None, special_flags=0):
+        if self._screen:
+            offset_x = dest[0] - (self._target.x-self._x0) if self._target else dest[0]
+            offset_y = dest[1] - (self._target.y-self._y0) if self._target else dest[1]
+            offset_dest = (offset_x, offset_y)
+            # TODO: Culling: only blit image if on screen, either here or in sprite class which calls this method
+            self._screen.blit(source, offset_dest, area, special_flags)
+
+
+camera = Camera()

@@ -5,6 +5,8 @@ import pygame
 
 from .projectile import Projectile
 
+from camera.camera import camera
+
 
 IMAGE_PATH_BASE = os.path.join('images', 'seeds')
 
@@ -21,4 +23,4 @@ class Seed(Projectile):
 
     def draw(self, screen):
         super().draw(screen)
-        screen.blit(self.image, (int(self.x - 5), int(self.y - 5), 10, 10), (0, 0, 10, 10))
+        camera.blit(self.image, (int(self.x - 5), int(self.y - 5), 10, 10), (0, 0, 10, 10))

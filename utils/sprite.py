@@ -6,6 +6,7 @@ import pygame
 from .fg_element import FGElement
 from .collision import CollisionEffect
 
+from camera.camera import camera
 
 class Sprite(FGElement):
     def __init__(self, image, x=0, y=0, angle=0, velocity=0, move_x=0, move_y=0):
@@ -43,7 +44,7 @@ class Collider:
         color = (255, 255, 0, 128) if self.collided else (128, 0, 128, 128)
         pygame.draw.circle(s, color, (self.radius, self.radius), self.radius)
         c_x, c_y = self.center
-        screen.blit(s, (c_x - self.radius, c_y - self.radius))
+        camera.blit(s, (c_x - self.radius, c_y - self.radius))
 
     def update_size(self):
         bounds_x, bounds_y = self.sprite().image.get_size()
