@@ -10,7 +10,6 @@ from gfx.bg import ParallaxBackground
 from scene import state
 from utils.collision import collide
 from utils.text import Text
-from weapons.seed import Seed
 
 
 class LevelOneModel:

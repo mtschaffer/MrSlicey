@@ -4,11 +4,11 @@ import math
 import pygame
 
 from camera.camera import camera
-from utils.text import Text
 from scene import state
+from utils.text import Text
 from utils.sprite import Sprite, Collider
-from weapons.seed import Seed
 from utils.collision import CollisionEffect
+from weapons.seed import Seed
 
 IMAGE_PATH = os.path.join('images', 'watermelon.png')
 

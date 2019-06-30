@@ -5,8 +5,8 @@ import pygame
 
 from .fg_element import FGElement
 from .collision import CollisionEffect
-
 from camera.camera import camera
+
 
 class Sprite(FGElement):
     def __init__(self, image, x=0, y=0, angle=0, velocity=0, move_x=0, move_y=0):

@@ -4,7 +4,6 @@ from random import randint
 import pygame
 
 from .projectile import Projectile
-
 from camera.camera import camera
 
 
