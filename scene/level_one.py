@@ -54,7 +54,7 @@ class LevelOneModel:
             self.bg_size)
         self.background.add_layer('parallax-mountain-foreground-trees.png', 1.1,
             0, self.bg_size)
-        
+
     def all_fg_elements(self):
         return self.fg_elements
 
