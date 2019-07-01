@@ -3,13 +3,13 @@ from random import randint
 
 import pygame
 
+from camera.camera import camera
 from characters.watermelon import Watermelon
 from characters.turkeyleg import TurkeyLeg, IMAGE as TURKEY_IMAGE
 from gfx.bg import ParallaxBackground
 from scene import state
 from utils.collision import collide
 from utils.text import Text
-from weapons.seed import Seed
 
 
 class LevelOneModel:
@@ -33,6 +33,7 @@ class LevelOneModel:
 
         self.watermelon = Watermelon(seed_inventory=30)
         self.add_fg_element(self.watermelon)
+        camera.set_target(self.watermelon)
 
         self.hello = Text("Hi, I'm Mr Slicey!", 320, 150, center=True)
         self.add_fg_element(self.hello)

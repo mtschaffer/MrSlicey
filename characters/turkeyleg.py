@@ -2,6 +2,7 @@ import os
 
 import pygame
 
+from camera.camera import camera
 from utils.sprite import Sprite, Collider
 from utils.collision import CollisionEffect
 
@@ -46,4 +47,4 @@ class TurkeyLeg(Sprite):
         super().draw(screen)
         rotated_image = pygame.transform.rotate(self.image, self.angle)
         w, h = rotated_image.get_size()
-        screen.blit(rotated_image, (int(self.x - w / 2), int(self.y - h / 2)))
+        camera.blit(rotated_image, (self.x - w / 2, self.y - h / 2))

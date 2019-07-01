@@ -1,5 +1,6 @@
 import pygame
 from scene import state
+from camera.camera import camera
 
 #Rules:
 #1) Worked on in your free time
@@ -17,6 +18,7 @@ def main():
 
     #VGA resolution sounds about right
     screen = pygame.display.set_mode((state.SCREEN_WIDTH, state.SCREEN_HEIGHT))
+    camera.set_screen(screen)
 
     #Let's aim for 30 frames/second
     fps = 30
