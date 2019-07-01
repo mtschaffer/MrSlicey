@@ -34,7 +34,7 @@ class Collider:
 
     @property
     def center(self):
-        return int(self.sprite().x), int(self.sprite().y)
+        return self.sprite().x, self.sprite().y
 
     def draw(self, screen):
         if not self.visible:

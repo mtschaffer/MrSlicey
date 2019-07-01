@@ -22,4 +22,4 @@ class Seed(Projectile):
 
     def draw(self, screen):
         super().draw(screen)
-        camera.blit(self.image, (int(self.x - 5), int(self.y - 5), 10, 10), (0, 0, 10, 10))
+        camera.blit(self.image, (self.x - 5, self.y - 5, 10, 10), (0, 0, 10, 10))

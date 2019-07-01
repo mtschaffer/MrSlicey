@@ -47,4 +47,4 @@ class TurkeyLeg(Sprite):
         super().draw(screen)
         rotated_image = pygame.transform.rotate(self.image, self.angle)
         w, h = rotated_image.get_size()
-        camera.blit(rotated_image, (int(self.x - w / 2), int(self.y - h / 2)))
+        camera.blit(rotated_image, (self.x - w / 2, self.y - h / 2))
