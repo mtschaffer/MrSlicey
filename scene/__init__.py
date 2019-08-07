@@ -7,6 +7,7 @@ from itertools import repeat
 
 import pygame
 
+
 def _quit(keystate):
     alt_held = keystate[pygame.K_LALT] or keystate[pygame.K_RALT]
     ctrl_held = keystate[pygame.K_LCTRL] or keystate[pygame.K_RCTRL]
