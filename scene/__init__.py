@@ -3,8 +3,11 @@ Manage different scenes for the game.
 """
 import sys
 from importlib import import_module
+from itertools import repeat
 
 import pygame
+
+from camera.camera import camera
 
 
 def _quit(keystate):
@@ -34,6 +37,7 @@ class SceneState:
         self.current_scene = None
         self._scene_cache = {}
         self._scene_time_stamp = 0
+        self.offset = repeat((0,0))
         self.previous_keystate = None
 
     def load_scene(self, scene_name):
@@ -69,6 +73,8 @@ class SceneState:
         # Start drawing this frame by painting the whole thing black
         screen.fill((0, 0, 0))
         current_scene.draw(screen)
+        screen_copy = screen.copy()
+        screen.blit(screen_copy, next(self.offset))
         pygame.display.flip()
 
 
