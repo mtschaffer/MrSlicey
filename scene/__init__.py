@@ -3,9 +3,10 @@ Manage different scenes for the game.
 """
 import sys
 from importlib import import_module
-from itertools import repeat
 
 import pygame
+
+from utils.screen_shake import screen_shake
 
 
 def _quit(keystate):
@@ -35,7 +36,7 @@ class SceneState:
         self.current_scene = None
         self._scene_cache = {}
         self._scene_time_stamp = 0
-        self.offset = repeat((0,0))
+        self.offset = screen_shake(0,0)
         self.previous_keystate = None
 
     def load_scene(self, scene_name):

@@ -6,6 +6,7 @@ import pygame
 from camera.camera import camera
 from scene import state
 from utils.text import Text
+from utils.screen_shake import screen_shake
 from utils.sprite import Sprite, Collider
 from utils.collision import CollisionEffect
 from weapons.seed import Seed
@@ -101,23 +102,8 @@ class Watermelon(Sprite):
             if self.health > 0:
                 self.health -= 10
 
-            state.offset = self.screen_shake(2, 3)
-
     def projectile_hit(self):
         self.health = min(self.health + 15, self.max_health)
-
-    def screen_shake(self, shake_count, shake_magnitude):
-        shake_maximum = shake_count * shake_magnitude
-        shake_vector = -1
-
-        for i in range(0, shake_count):
-            for x in range(0, shake_maximum, shake_magnitude):
-                yield (x * shake_vector, 0)
-            for x in range(shake_maximum, 0, shake_magnitude):
-                yield (x * shake_vector, 0)
-            shake_vector *= -1
-        while True:
-            yield (0, 0)
 
     # Move the watermelon
     def update(self, model, lag_scalar):
@@ -136,6 +122,7 @@ class Watermelon(Sprite):
 
         if self.input_fire_seed:
             self.fire_seed(model, max(-2, self.velocity) + 10)
+            state.offset = screen_shake(2, 3)
 
         self.animate_flame()
 
