@@ -123,6 +123,7 @@ class Watermelon(Sprite):
         if self.input_fire_seed:
             self.fire_seed(model, max(-2, self.velocity) + 10)
             state.offset = screen_shake(2, 3)
+            state.screen_shaking = True
 
         self.animate_flame()
 
