@@ -6,6 +6,7 @@ import pygame
 from camera.camera import camera
 from scene import state
 from utils.text import Text
+from utils.screen_shake import screen_shake
 from utils.sprite import Sprite, Collider
 from utils.collision import CollisionEffect
 from weapons.seed import Seed
@@ -121,6 +122,8 @@ class Watermelon(Sprite):
 
         if self.input_fire_seed:
             self.fire_seed(model, max(-2, self.velocity) + 10)
+            state.offset = screen_shake(2, 3)
+            state.screen_shaking = True
 
         self.animate_flame()
 

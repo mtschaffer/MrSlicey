@@ -6,6 +6,8 @@ from importlib import import_module
 
 import pygame
 
+from utils.screen_shake import screen_shake
+
 
 def _quit(keystate):
     alt_held = keystate[pygame.K_LALT] or keystate[pygame.K_RALT]
@@ -34,7 +36,9 @@ class SceneState:
         self.current_scene = None
         self._scene_cache = {}
         self._scene_time_stamp = 0
+        self.offset = screen_shake(0,0)
         self.previous_keystate = None
+        self.screen_shaking = False
 
     def load_scene(self, scene_name):
         if scene_name not in self._scene_cache:
@@ -69,6 +73,12 @@ class SceneState:
         # Start drawing this frame by painting the whole thing black
         screen.fill((0, 0, 0))
         current_scene.draw(screen)
+        if self.screen_shaking:
+            screen_copy = screen.copy()
+            shake = next(self.offset)
+            screen.blit(screen_copy, shake)
+            if shake is (0, 0):
+                self.screen_shaking = False
         pygame.display.flip()
 
 
