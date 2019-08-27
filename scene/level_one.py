@@ -8,6 +8,7 @@ from characters.watermelon import Watermelon
 from characters.turkeyleg import TurkeyLeg, IMAGE as TURKEY_IMAGE
 from gfx.bg import ParallaxBackground
 from scene import state
+from utils.audio import audio
 from utils.collision import collide
 from utils.text import Text
 
@@ -53,6 +54,8 @@ class LevelOneModel:
             self.bg_size)
         self.background.add_layer('parallax-mountain-foreground-trees.png', 1.1,
             0, self.bg_size)
+
+        audio.play_bgm('bgm1')
 
     def all_fg_elements(self):
         return self.fg_elements

@@ -153,6 +153,7 @@ class Watermelon(Sprite):
 
         # TODO: add a new scene for the game over screen
         if self.health <= 0:
+            audio.stop_all()
             game_over.draw(screen)
 
     def draw_player(self, screen):
