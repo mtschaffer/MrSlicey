@@ -5,6 +5,7 @@ import pygame
 
 from camera.camera import camera
 from scene import state
+from utils.audio import audio
 from utils.text import Text
 from utils.screen_shake import screen_shake
 from utils.sprite import Sprite, Collider
@@ -74,6 +75,7 @@ class Watermelon(Sprite):
             self.move_velocity = -self.acceleration
 
         if keystate[pygame.K_SPACE]:
+            audio.play_sfx('pew')
             self.input_fire_seed = True
 
     def reset_buffered_input(self):
