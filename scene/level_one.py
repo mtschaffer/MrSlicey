@@ -3,6 +3,7 @@ from random import randint
 
 import pygame
 
+from .score_board import ScoreBoard
 from camera.camera import camera
 from characters.watermelon import Watermelon
 from characters.turkeyleg import TurkeyLeg, IMAGE as TURKEY_IMAGE
@@ -37,6 +38,9 @@ class LevelOneModel:
 
         self.hello = Text("Hi, I'm Mr Slicey!", 320, 150, center=True)
         self.add_fg_element(self.hello)
+
+        self.score_board = ScoreBoard.instance()
+        self.add_fg_element(self.score_board)
 
         ## Background
         # this set of background images is 272 x 160

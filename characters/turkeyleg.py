@@ -3,6 +3,7 @@ import os
 import pygame
 
 from camera.camera import camera
+from scene.score_board import ScoreBoard
 from utils.sprite import Sprite, Collider
 from utils.collision import CollisionEffect
 
@@ -24,12 +25,14 @@ class TurkeyLeg(Sprite):
         )
         self.rotational_velocity = rotational_velocity
         self.destroyed = False
+        self.score_board = ScoreBoard.instance()
 
     def create_collider(self):
         return Collider(self, effect=CollisionEffect.Halt, reaction=self.collided)
 
     def collided(self, collider, effect):
         if effect == CollisionEffect.Destroy:
+            self.score_board.incr_score(1)
             self.destroyed = True
         elif effect == CollisionEffect.Halt:
             pass    # do nothing if colliding with a fellow halter
