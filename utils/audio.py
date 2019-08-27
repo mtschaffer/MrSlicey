@@ -1,3 +1,4 @@
+import os
 import random
 
 from pygame import mixer
@@ -5,12 +6,9 @@ from pygame import mixer
 class Audio:
 
     def __init__(self):
-        #TODO:  load from file listing
-        self.audio_set = {
-            'pew': mixer.Sound('audio/pew.ogg'),
-            'drumstick1': mixer.Sound('audio/drumstick1.ogg'),
-            'drumstick2': mixer.Sound('audio/drumstick2.ogg'),
-        }
+        self.audio_set = {}
+        for audio_file in [os.path.splitext(os.path.basename(file))[0] for file in os.listdir('audio') if file.endswith('.ogg')]:
+            self.audio_set[audio_file] = mixer.Sound('audio/{}.ogg'.format(audio_file))
 
     def play_sfx(self, sfx_name):
         if sfx_name in self.audio_set:
