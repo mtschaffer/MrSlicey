@@ -122,6 +122,13 @@ class Watermelon(Sprite):
         self.x = self.x + self.move_x * lag_scalar
         self.y = self.y + self.move_y * lag_scalar
 
+        if self.input_fire_seed:
+            self.fire_seed(model, max(-2, self.velocity) + 10)
+            state.offset = screen_shake(2, 3)
+            state.screen_shaking = True
+
+        self.animate_flame()
+
         if self.velocity > 0:
             audio.stop_sfx('beepbeepbeep')
             audio.play_sfx('rocket', volume=(abs(self.velocity) / self.max_velocity), loops=-1)
@@ -132,12 +139,11 @@ class Watermelon(Sprite):
             audio.stop_sfx('rocket')
             audio.stop_sfx('beepbeepbeep')
 
-        if self.input_fire_seed:
-            self.fire_seed(model, max(-2, self.velocity) + 10)
-            state.offset = screen_shake(2, 3)
-            state.screen_shaking = True
+        if (self.health / self.max_health) < .25:
+            audio.play_sfx('heartbeat', loops=-1)
+        else:
+            audio.stop_sfx('heartbeat')
 
-        self.animate_flame()
 
     def animate_flame(self):
         velocity_based_animation_rate = 2 - int(abs(self.velocity) / 4)
