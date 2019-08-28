@@ -55,8 +55,6 @@ class LevelOneModel:
         self.background.add_layer('parallax-mountain-foreground-trees.png', 1.1,
             0, self.bg_size)
 
-        audio.play_bgm('bgm1')
-
     def all_fg_elements(self):
         return self.fg_elements
 
@@ -87,6 +85,12 @@ class LevelOneModel:
                 rot_v = randint(-45, 45)
                 self.add_fg_element(TurkeyLeg(x=x, y=y, angle=angle, rotational_velocity=rot_v))
 
+def enter():
+    audio.stop_all()
+    audio.play_bgm('bgm1')
+
+def exit():
+    pass
 
 def draw(screen):
     model = LevelOneModel.instance()
