@@ -153,7 +153,10 @@ class Watermelon(Sprite):
 
         # TODO: add a new scene for the game over screen
         if self.health <= 0:
+            #BUG:  Because the game over isn't a new scene, this will happen every frame.
+            #BUG:  So the "Oh No! -pop-" SFX won't play right.
             audio.stop_all()
+            audio.play_sfx('ohno')
             game_over.draw(screen)
 
     def draw_player(self, screen):

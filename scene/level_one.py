@@ -92,6 +92,7 @@ class LevelOneModel:
 def enter():
     audio.stop_all()
     audio.play_bgm('bgm1')
+    audio.play_sfx('yolo')
 
 def exit():
     pass
