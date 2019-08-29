@@ -25,7 +25,9 @@ class Audio:
 
             #Only play the sound if the sound isn't already active.
             if sfx_name not in self.active_loops:
-                self.active_loops[sfx_name] = self.audio_set[sfx_name].play(loops=-1)
+                channel = self.audio_set[sfx_name].play(loops=-1)
+                if channel is not None:
+                    self.active_loops[sfx_name] = channel
 
     def play_bgm(self, bgm_name):
         mixer.music.load('audio/bgm/{}.ogg'.format(bgm_name))
