@@ -130,19 +130,19 @@ class Watermelon(Sprite):
         self.animate_flame()
 
         if self.velocity > 0:
-            audio.stop_sfx('beepbeepbeep')
-            audio.play_sfx('rocket', volume=(abs(self.velocity) / self.max_velocity), loops=-1)
+            audio.stop_infinite_sfx('beepbeepbeep')
+            audio.play_infinite_sfx('rocket', volume=(abs(self.velocity) / self.max_velocity))
         elif self.velocity <0:
-            audio.stop_sfx('rocket')
-            audio.play_sfx('beepbeepbeep', volume=(abs(self.velocity) / self.max_velocity), loops=-1)
+            audio.stop_infinite_sfx('rocket')
+            audio.play_infinite_sfx('beepbeepbeep', volume=(abs(self.velocity) / self.max_velocity))
         else:
-            audio.stop_sfx('rocket')
-            audio.stop_sfx('beepbeepbeep')
+            audio.stop_infinite_sfx('rocket')
+            audio.stop_infinite_sfx('beepbeepbeep')
 
         if (self.health / self.max_health) < .25:
-            audio.play_sfx('heartbeat', loops=-1)
+            audio.play_infinite_sfx('heartbeat')
         else:
-            audio.stop_sfx('heartbeat')
+            audio.stop_infinite_sfx('heartbeat')
 
 
     def animate_flame(self):
