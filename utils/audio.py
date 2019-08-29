@@ -29,7 +29,7 @@ class Audio:
 
     def play_bgm(self, bgm_name):
         mixer.music.load('audio/bgm/{}.ogg'.format(bgm_name))
-        mixer.music.play()
+        mixer.music.play(loops=-1)
 
     def set_volume_sfx(self, sfx_name, volume):
         if sfx_name in self.audio_set:
