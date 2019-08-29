@@ -132,7 +132,7 @@ class Watermelon(Sprite):
         if self.velocity > 0:
             audio.stop_infinite_sfx('beepbeepbeep')
             audio.play_infinite_sfx('rocket', volume=(abs(self.velocity) / self.max_velocity))
-        elif self.velocity <0:
+        elif self.velocity < 0:
             audio.stop_infinite_sfx('rocket')
             audio.play_infinite_sfx('beepbeepbeep', volume=(abs(self.velocity) / self.max_velocity))
         else:
