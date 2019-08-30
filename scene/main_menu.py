@@ -1,5 +1,6 @@
 import pygame
 
+from utils.audio import audio
 from utils.text import Text
 from scene import state
 
@@ -13,6 +14,12 @@ controls2_text = Text("Up/Down Arrows - Speed", 50, 260)
 controls3_text = Text("Spacebar - Shoot", 50, 290)
 controls4_text = Text("(Debug): c - Toggle visible hitboxes", 50, 320)
 
+def enter():
+    audio.stop_all()
+    audio.play_bgm('titlescreenfull')
+
+def exit():
+    pass
 
 def draw(screen):
     welcome.draw(screen)

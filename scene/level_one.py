@@ -9,6 +9,7 @@ from characters.watermelon import Watermelon
 from characters.turkeyleg import TurkeyLeg, IMAGE as TURKEY_IMAGE
 from gfx.bg import ParallaxBackground
 from scene import state
+from utils.audio import audio
 from utils.collision import collide
 from utils.text import Text
 
@@ -88,6 +89,13 @@ class LevelOneModel:
                 rot_v = randint(-45, 45)
                 self.add_fg_element(TurkeyLeg(x=x, y=y, angle=angle, rotational_velocity=rot_v))
 
+def enter():
+    audio.stop_all()
+    audio.play_bgm('bgm1')
+    audio.play_sfx('yolo')
+
+def exit():
+    pass
 
 def draw(screen):
     model = LevelOneModel.instance()

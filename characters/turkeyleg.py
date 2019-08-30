@@ -4,6 +4,7 @@ import pygame
 
 from camera.camera import camera
 from scene.score_board import ScoreBoard
+from utils.audio import audio
 from utils.sprite import Sprite, Collider
 from utils.collision import CollisionEffect
 
@@ -44,6 +45,7 @@ class TurkeyLeg(Sprite):
         self.angle += (self.rotational_velocity * lag_scalar)
         self.angle %= 360
         if self.destroyed:
+            audio.play_any_sfx('drumstick1', 'drumstick2')
             model.remove_fg_element(self)
 
     def draw(self, screen):

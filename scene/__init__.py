@@ -45,8 +45,13 @@ class SceneState:
             scene = import_module('scene.{}'.format(scene_name))
             self._scene_cache[scene_name] = scene
 
+        if self.current_scene:
+            self.current_scene.exit()
+
         self.current_scene = self._scene_cache[scene_name]
         self._scene_time_stamp = pygame.time.get_ticks()
+
+        self.current_scene.enter()
 
     @property
     def time(self):

@@ -5,6 +5,7 @@ import pygame
 
 from camera.camera import camera
 from scene import state
+from utils.audio import audio
 from utils.text import Text
 from utils.screen_shake import screen_shake
 from utils.sprite import Sprite, Collider
@@ -74,6 +75,7 @@ class Watermelon(Sprite):
             self.move_velocity = -self.acceleration
 
         if keystate[pygame.K_SPACE]:
+            audio.play_sfx('pew')
             self.input_fire_seed = True
 
     def reset_buffered_input(self):
@@ -127,6 +129,22 @@ class Watermelon(Sprite):
 
         self.animate_flame()
 
+        if self.velocity > 0:
+            audio.stop_infinite_sfx('beepbeepbeep')
+            audio.play_infinite_sfx('rocket', volume=(abs(self.velocity) / self.max_velocity))
+        elif self.velocity < 0:
+            audio.stop_infinite_sfx('rocket')
+            audio.play_infinite_sfx('beepbeepbeep', volume=(abs(self.velocity) / self.max_velocity))
+        else:
+            audio.stop_infinite_sfx('rocket')
+            audio.stop_infinite_sfx('beepbeepbeep')
+
+        if (self.health / self.max_health) < .25:
+            audio.play_infinite_sfx('heartbeat')
+        else:
+            audio.stop_infinite_sfx('heartbeat')
+
+
     def animate_flame(self):
         velocity_based_animation_rate = 2 - int(abs(self.velocity) / 4)
         self.flame_frame_timer += 1
@@ -151,6 +169,10 @@ class Watermelon(Sprite):
 
         # TODO: add a new scene for the game over screen
         if self.health <= 0:
+            #BUG:  Because the game over isn't a new scene, this will happen every frame.
+            #BUG:  So the "Oh No! -pop-" SFX won't play right.
+            audio.stop_all()
+            audio.play_sfx('ohno')
             game_over.draw(screen)
 
     def draw_player(self, screen):
