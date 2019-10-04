@@ -34,11 +34,17 @@ class SceneState:
 
     def __init__(self):
         self.current_scene = None
+        self.next_scene = None
         self._scene_cache = {}
         self._scene_time_stamp = 0
         self.offset = screen_shake(0,0)
         self.previous_keystate = None
         self.screen_shaking = False
+
+        self.alphaSurface = pygame.Surface((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+        self.alphaSurface.fill((0,0,0))
+        self.alphaSurface.set_alpha(0)
+        self.alpha = 0
 
     def load_scene(self, scene_name):
         if scene_name not in self._scene_cache:
@@ -52,6 +58,10 @@ class SceneState:
         self._scene_time_stamp = pygame.time.get_ticks()
 
         self.current_scene.enter()
+
+
+    def fade_to(self, scene):
+        self.next_scene = scene
 
     @property
     def time(self):
@@ -78,12 +88,25 @@ class SceneState:
         # Start drawing this frame by painting the whole thing black
         screen.fill((0, 0, 0))
         current_scene.draw(screen)
+
         if self.screen_shaking:
             screen_copy = screen.copy()
             shake = next(self.offset)
             screen.blit(screen_copy, shake)
             if shake is (0, 0):
                 self.screen_shaking = False
+
+        if self.next_scene:
+            if self.alpha < 255:
+                self.alpha += 8.0
+                self.alphaSurface.set_alpha(self.alpha)
+                screen.blit(self.alphaSurface, (0,0))
+                screen.set_alpha(self.alpha)
+            else:
+                screen.fill((0,0,0))
+                self.load_scene(self.next_scene)
+                self.next_scene = None
+
         pygame.display.flip()
 
 

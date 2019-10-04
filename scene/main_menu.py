@@ -38,4 +38,4 @@ def update(lag_scalar):
 
 def input(keystate, previous_keystate):
     if keystate[pygame.K_SPACE]:
-        state.load_scene('level_one')
+        state.fade_to('level_one')
