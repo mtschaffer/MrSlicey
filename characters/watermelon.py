@@ -6,16 +6,12 @@ import pygame
 from camera.camera import camera
 from scene import state
 from utils.audio import audio
-from utils.text import Text
 from utils.screen_shake import screen_shake
 from utils.sprite import Sprite, Collider
 from utils.collision import CollisionEffect
 from weapons.seed import Seed
 
 IMAGE_PATH = os.path.join('images', 'watermelon.png')
-
-game_over = Text("GAME OVER", 250, 200)
-
 
 class Watermelon(Sprite):
     # Load the watermelon image and stick it in the middle of the screen
@@ -167,13 +163,8 @@ class Watermelon(Sprite):
         # TODO: Move these displays to a HUD class
         self.draw_hud(screen)
 
-        # TODO: add a new scene for the game over screen
         if self.health <= 0:
-            #BUG:  Because the game over isn't a new scene, this will happen every frame.
-            #BUG:  So the "Oh No! -pop-" SFX won't play right.
-            audio.stop_all()
-            audio.play_sfx('ohno')
-            game_over.draw(screen)
+            state.fade_to('game_over')
 
     def draw_player(self, screen):
         rotated_image = pygame.transform.rotate(self.image, self.angle - 180)
