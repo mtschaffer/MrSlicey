@@ -14,12 +14,15 @@ controls2_text = Text("Up/Down Arrows - Speed", 50, 260)
 controls3_text = Text("Spacebar - Shoot", 50, 290)
 controls4_text = Text("(Debug): c - Toggle visible hitboxes", 50, 320)
 
+
 def enter():
     audio.stop_all()
     audio.play_bgm('titlescreenfull')
 
+
 def exit():
     pass
+
 
 def draw(screen):
     welcome.draw(screen)
@@ -37,5 +40,5 @@ def update(lag_scalar):
 
 
 def input(keystate, previous_keystate):
-    if keystate[pygame.K_SPACE]:
+    if keystate[pygame.K_SPACE] and (not previous_keystate or not previous_keystate[pygame.K_SPACE]):
         state.fade_to('level_one')

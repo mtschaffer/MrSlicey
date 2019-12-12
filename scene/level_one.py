@@ -24,6 +24,10 @@ class LevelOneModel:
 
         return cls._instance
 
+    @classmethod
+    def clear_instance(cls):
+        cls._instance = None
+
     def __init__(self):
         ## Foreground
         # A list of all on-screen elements.
@@ -89,13 +93,16 @@ class LevelOneModel:
                 rot_v = randint(-45, 45)
                 self.add_fg_element(TurkeyLeg(x=x, y=y, angle=angle, rotational_velocity=rot_v))
 
+
 def enter():
     audio.stop_all()
     audio.play_bgm('bgm1')
     audio.play_sfx('yolo')
 
+
 def exit():
-    pass
+    LevelOneModel.clear_instance()
+
 
 def draw(screen):
     model = LevelOneModel.instance()
