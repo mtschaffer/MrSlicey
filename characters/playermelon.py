@@ -207,7 +207,6 @@ class PlayerMelon(Watermelon):
         pygame.draw.rect(screen, (255, 0, 0), (10, 10, 100, 10))
         if self.health > 0:
             pygame.draw.rect(screen, (0, 255, 0), (10, 10, 100 * self.health / self.max_health, 10))
-            pygame
 
         # velocity bar
         pygame.draw.rect(screen, (255, 0, 0), (10, 370, 10, 100))
