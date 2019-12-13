@@ -5,7 +5,8 @@ import pygame
 
 from .score_board import ScoreBoard
 from camera.camera import camera
-from characters.watermelon import Watermelon
+from characters.bromelon import BroMelon
+from characters.playermelon import PlayerMelon
 from characters.turkeyleg import TurkeyLeg, IMAGE as TURKEY_IMAGE
 from gfx.bg import ParallaxBackground
 from scene import state
@@ -16,6 +17,8 @@ from utils.text import Text
 
 class LevelOneModel:
     _instance = None
+
+    NUM_BROS = 4
 
     @classmethod
     def instance(cls):
@@ -35,9 +38,11 @@ class LevelOneModel:
         self.colliders = []
         self.show_colliders = False
 
-        self.add_obstacles()
+        self.placed_bros = []
 
-        self.watermelon = Watermelon(seed_inventory=30)
+        self.populate_grid()
+
+        self.watermelon = PlayerMelon(seed_inventory=30)
         self.add_fg_element(self.watermelon)
         camera.set_target(self.watermelon)
 
@@ -77,21 +82,36 @@ class LevelOneModel:
         if hasattr(element, 'collider') and element.collider in self.colliders:
             self.colliders.remove(element.collider)
 
-    def add_obstacles(self):
+
+    def populate_grid(self):
         w, h = TURKEY_IMAGE.get_size()
+
+        turkey_idx = 0
         # NOTE: place obstacles in 5x5 grid
         x_step = state.SCREEN_WIDTH // 5
         y_step = state.SCREEN_HEIGHT // 5
-        for grid_x in range(0, state.SCREEN_WIDTH, x_step):
-            for grid_y in range(0, state.SCREEN_HEIGHT, y_step):
+
+        center = (2 * x_step, 2 * y_step)
+        for grid_x in range(-state.SCREEN_WIDTH, state.SCREEN_WIDTH, x_step):
+            for grid_y in range(-state.SCREEN_HEIGHT, state.SCREEN_HEIGHT, y_step):
                 # NOTE: skip the square the player is spawned in
-                if grid_x == 2 * x_step and grid_y == 2 * y_step:
+                # let the watermelon breathe before the madness
+                if abs(center[0] - grid_x) <= x_step and abs(center[1] - grid_y) <= y_step:
                     continue
+
                 x = grid_x + randint(0, x_step - 1)
                 y = grid_y + randint(0, y_step - 1)
+
+                # bros are in the 4 corners
+                if ((grid_x < -state.SCREEN_WIDTH + x_step) or (grid_x >= state.SCREEN_WIDTH - x_step)) and \
+                   ((grid_y < -state.SCREEN_HEIGHT + y_step) or (grid_y >= state.SCREEN_HEIGHT - y_step)):
+                    self.add_fg_element(BroMelon(x=x, y=y))
+
+
                 angle = randint(0, 359)
                 rot_v = randint(-45, 45)
-                self.add_fg_element(TurkeyLeg(x=x, y=y, angle=angle, rotational_velocity=rot_v))
+                self.add_fg_element(TurkeyLeg(x=x, y=y, angle=angle, rotational_velocity=rot_v, idx=turkey_idx))
+                turkey_idx += 1
 
 
 def enter():
