@@ -98,7 +98,6 @@ class SceneState:
                 self.screen_shaking = False
 
         if self.next_scene:
-            print(self.alpha)
             if self.alpha < 255:
                 self.alpha += 8.0
                 self.alphaSurface.set_alpha(self.alpha)
