@@ -13,7 +13,6 @@ IMAGE_PATH = os.path.join('images', 'watermelon.png')
 class Watermelon(Sprite):
     def __init__(self, seed_inventory=0, x=320, y=240, velocity=1.0):
         super().__init__(
-            name='Watermelon',
             image=IMAGE_PATH,
             x=x,
             y=y,

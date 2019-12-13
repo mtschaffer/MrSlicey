@@ -8,6 +8,7 @@ class FGElement(object):
         self.move_x = move_x
         self.move_y = move_y
 
+
     def input(self, model, keystate):
         pass
 
