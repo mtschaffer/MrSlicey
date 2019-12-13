@@ -28,7 +28,7 @@ def main():
     #when the time between frames is not always consistent
     lag_scalar = 1.0
 
-    state.load_scene('main_menu')
+    state.load_scene('main_menu', None)
 
     while (True):
         state.loop(lag_scalar, screen)

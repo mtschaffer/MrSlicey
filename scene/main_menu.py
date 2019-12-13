@@ -15,7 +15,7 @@ controls3_text = Text("Spacebar - Shoot", 50, 290)
 controls4_text = Text("(Debug): c - Toggle visible hitboxes", 50, 320)
 
 
-def enter():
+def enter(scene_args):
     audio.stop_all()
     audio.play_bgm('titlescreenfull')
 
@@ -41,4 +41,4 @@ def update(lag_scalar):
 
 def input(keystate, previous_keystate):
     if keystate[pygame.K_SPACE] and (not previous_keystate or not previous_keystate[pygame.K_SPACE]):
-        state.fade_to('level_one')
+        state.fade_to('level_one', None)

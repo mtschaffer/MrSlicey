@@ -4,6 +4,7 @@ from random import randint
 import pygame
 
 from .score_board import ScoreBoard
+from .time_board import TimeBoard
 from camera.camera import camera
 from characters.bromelon import BroMelon
 from characters.playermelon import PlayerMelon
@@ -51,6 +52,11 @@ class LevelOneModel:
 
         self.score_board = ScoreBoard.instance()
         self.add_fg_element(self.score_board)
+
+        self.time_board = TimeBoard.instance()
+        self.add_fg_element(self.time_board)
+
+        self.game_over = False
 
         ## Background
         # this set of background images is 272 x 160
@@ -114,10 +120,13 @@ class LevelOneModel:
                 turkey_idx += 1
 
 
-def enter():
+def enter(scene_args):
     audio.stop_all()
     audio.play_bgm('bgm1')
     audio.play_sfx('yolo')
+
+    model = LevelOneModel.instance()
+    model.time_board.start()
 
 
 def exit():
@@ -151,6 +160,12 @@ def update(lag_scalar):
 
     for c1, c2 in combinations(model.colliders, 2):
         collide(c1, c2)
+
+    score = model.score_board.instance().score
+    time = model.time_board.instance().elapsed_time
+    if model.watermelon.health <= 0 and not model.game_over:
+        model.game_over = True
+        state.fade_to('game_over', {"score": score, "time": time})
 
 
 def input(keystate, previous_keystate):

@@ -46,7 +46,7 @@ class SceneState:
         self.alphaSurface.set_alpha(0)
         self.alpha = 0
 
-    def load_scene(self, scene_name):
+    def load_scene(self, scene_name, scene_args):
         if scene_name not in self._scene_cache:
             scene = import_module('scene.{}'.format(scene_name))
             self._scene_cache[scene_name] = scene
@@ -57,11 +57,12 @@ class SceneState:
         self.current_scene = self._scene_cache[scene_name]
         self._scene_time_stamp = pygame.time.get_ticks()
 
-        self.current_scene.enter()
+        self.current_scene.enter(scene_args)
 
-
-    def fade_to(self, scene):
+    def fade_to(self, scene, scene_args):
         self.next_scene = scene
+        self.next_scene_args = scene_args
+        self.alpha = 0
 
     @property
     def time(self):
@@ -104,7 +105,7 @@ class SceneState:
                 screen.set_alpha(self.alpha)
             else:
                 screen.fill((0,0,0))
-                self.load_scene(self.next_scene)
+                self.load_scene(self.next_scene, self.next_scene_args)
                 self.next_scene = None
 
         pygame.display.flip()
