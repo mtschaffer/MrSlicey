@@ -37,7 +37,7 @@ class PlayerMelon(Watermelon):
 
         self.seed_inventory = seed_inventory
         self.seed_fire_cooldown = 200
-        self.seed_last_fired = 1000
+        self.seed_last_fired = 0
 
         self.max_health = 100
         self.health = 100
@@ -125,6 +125,9 @@ class PlayerMelon(Watermelon):
             if self.health > 0:
                 self.health -= 10
 
+            state.offset = screen_shake(2, 3)
+            state.screen_shaking = True
+
     def projectile_hit(self):
         self.health = min(self.health + self._lifesteal, self.max_health)
 
@@ -147,21 +150,15 @@ class PlayerMelon(Watermelon):
         if self.input_fire_seed:
             self.fire(model, max(-2, self.velocity) + 10)
             self.seed_last_fired = state.time
-            state.offset = screen_shake(2, 3)
-            state.screen_shaking = True
 
         if self.input_fire_behind:
             self.fire_behind(model, max(-2, self.velocity) + 10)
             self.seed_last_fired = state.time
-            state.offset = screen_shake(2, 3)
-            state.screen_shaking = True
 
         if self.input_fire_fan:
             if self.seed_inventory > 3:
                 self.fire_fan(model, max(-2, self.velocity) + 10)
                 self.seed_last_fired = state.time
-                state.offset = screen_shake(2, 3)
-                state.screen_shaking = True
 
         self.animate_flame()
 
@@ -220,9 +217,6 @@ class PlayerMelon(Watermelon):
 
         # TODO: Move these displays to a HUD class
         self.draw_hud(screen)
-
-        if self.health <= 0:
-            state.fade_to('game_over')
 
     def create_collider(self):
         return Collider(self, effect=CollisionEffect.Player, reaction=self.collided)

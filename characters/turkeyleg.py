@@ -5,6 +5,7 @@ import pygame
 
 from camera.camera import camera
 from scene.score_board import ScoreBoard
+from scene.time_board import TimeBoard
 from utils.audio import audio
 from utils.sprite import Sprite, Collider
 from utils.collision import CollisionEffect
@@ -39,6 +40,7 @@ class TurkeyLeg(Sprite):
         self.rotational_velocity = rotational_velocity
         self.destroyed = False
         self.score_board = ScoreBoard.instance()
+        self.time_board = TimeBoard.instance()
 
     def set_orientation_vector(self, model=None):
         self.orientation_vector_x = math.sin(math.radians(self.angle))
