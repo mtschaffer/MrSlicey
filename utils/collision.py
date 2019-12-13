@@ -22,3 +22,4 @@ class CollisionEffect(enum.Enum):
     Halt = enum.auto()
     Destroy = enum.auto()
     Player = enum.auto()
+    Bromelon = enum.auto()

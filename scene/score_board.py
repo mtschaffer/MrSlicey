@@ -13,14 +13,21 @@ class ScoreBoard:
 
     def __init__(self):
         self.score = 0
+        self.seed_count = 0
 
     def incr_score(self, amount):
         self.score += amount
         print(self.score)
 
+    def update_seed_count(self, count):
+        self.seed_count = count
+
     def draw(self, screen):
-        text = Text(str(self.score), state.SCREEN_WIDTH / 2, 0, center=True)
-        text.draw(screen)
+        score_text = Text(str(self.score), state.SCREEN_WIDTH / 2, 0, center=True)
+        score_text.draw(screen)
+
+        seed_text = Text(f'seeds: {self.seed_count}', 10, 25)
+        seed_text.draw(screen)
 
     def input(self, model, keystate):
         return
