@@ -4,6 +4,7 @@ import pygame
 
 from camera.camera import camera
 from scene.score_board import ScoreBoard
+from scene.time_board import TimeBoard
 from utils.audio import audio
 from utils.sprite import Sprite, Collider
 from utils.collision import CollisionEffect
@@ -27,6 +28,7 @@ class TurkeyLeg(Sprite):
         self.rotational_velocity = rotational_velocity
         self.destroyed = False
         self.score_board = ScoreBoard.instance()
+        self.time_board = TimeBoard.instance()
 
     def create_collider(self):
         return Collider(self, effect=CollisionEffect.Halt, reaction=self.collided)

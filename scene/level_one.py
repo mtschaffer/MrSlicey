@@ -4,6 +4,7 @@ from random import randint
 import pygame
 
 from .score_board import ScoreBoard
+from .time_board import TimeBoard
 from camera.camera import camera
 from characters.watermelon import Watermelon
 from characters.turkeyleg import TurkeyLeg, IMAGE as TURKEY_IMAGE
@@ -47,6 +48,11 @@ class LevelOneModel:
         self.score_board = ScoreBoard.instance()
         self.add_fg_element(self.score_board)
 
+        self.time_board = TimeBoard.instance()
+        self.add_fg_element(self.time_board)
+
+        self.game_over = False
+
         ## Background
         # this set of background images is 272 x 160
         # apply hardcoded 4x scale to for now
@@ -85,7 +91,7 @@ class LevelOneModel:
         for grid_x in range(0, state.SCREEN_WIDTH, x_step):
             for grid_y in range(0, state.SCREEN_HEIGHT, y_step):
                 # NOTE: skip the square the player is spawned in
-                if grid_x == 2 * x_step and grid_y == 2 * y_step:
+                if grid_x == 2 * x_step and (grid_y == 1 * y_step or grid_y == 2 * y_step):
                     continue
                 x = grid_x + randint(0, x_step - 1)
                 y = grid_y + randint(0, y_step - 1)
@@ -94,11 +100,13 @@ class LevelOneModel:
                 self.add_fg_element(TurkeyLeg(x=x, y=y, angle=angle, rotational_velocity=rot_v))
 
 
-def enter():
+def enter(scene_args):
     audio.stop_all()
     audio.play_bgm('bgm1')
     audio.play_sfx('yolo')
 
+    model = LevelOneModel.instance()
+    model.time_board.start()
 
 def exit():
     LevelOneModel.clear_instance()
@@ -131,6 +139,12 @@ def update(lag_scalar):
 
     for c1, c2 in combinations(model.colliders, 2):
         collide(c1, c2)
+
+    score = model.score_board.instance().score
+    time = model.time_board.instance().elapsed_time
+    if (model.watermelon.health <= 0 or score >= 23) and not model.game_over:
+        model.game_over = True
+        state.fade_to('game_over', {"score": score, "time": time})
 
 
 def input(keystate, previous_keystate):

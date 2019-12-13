@@ -38,7 +38,7 @@ class Watermelon(Sprite):
 
         self.seed_inventory = seed_inventory
         self.seed_fire_cooldown = 200
-        self.seed_last_fired = 1000
+        self.seed_last_fired = 0
 
         self.max_health = 100
         self.health = 100
@@ -100,6 +100,9 @@ class Watermelon(Sprite):
             if self.health > 0:
                 self.health -= 10
 
+            state.offset = screen_shake(2, 3)
+            state.screen_shaking = True
+
     def projectile_hit(self):
         self.health = min(self.health + 15, self.max_health)
 
@@ -120,8 +123,6 @@ class Watermelon(Sprite):
 
         if self.input_fire_seed:
             self.fire_seed(model, max(-2, self.velocity) + 10)
-            state.offset = screen_shake(2, 3)
-            state.screen_shaking = True
 
         self.animate_flame()
 
@@ -162,9 +163,6 @@ class Watermelon(Sprite):
 
         # TODO: Move these displays to a HUD class
         self.draw_hud(screen)
-
-        if self.health <= 0:
-            state.fade_to('game_over')
 
     def draw_player(self, screen):
         rotated_image = pygame.transform.rotate(self.image, self.angle - 180)
