@@ -34,7 +34,6 @@ class Watermelon(Sprite):
         return Collider(self, reaction=self.collided)
 
     def collided(self, collider, effect):
-        # print(f'collider:\t{collider.sprite().__class__.__name__} \t' f'effect:\t{effect.name}')
         pass
 
     def set_orientation_vector(self):

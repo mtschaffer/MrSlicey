@@ -5,7 +5,6 @@ import pygame
 
 from .score_board import ScoreBoard
 from camera.camera import camera
-from characters.watermelon import Watermelon
 from characters.bromelon import BroMelon
 from characters.playermelon import PlayerMelon
 from characters.turkeyleg import TurkeyLeg, IMAGE as TURKEY_IMAGE
