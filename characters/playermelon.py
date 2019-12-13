@@ -78,8 +78,6 @@ class PlayerMelon(Watermelon):
         self.input_fire_behind = False
         self.input_fire_fan = False
 
-
-
     def fire(self, model, seed_velocity):
         self.fire_seed(model, seed_velocity)
         self.seed_last_fired = state.time
@@ -89,9 +87,10 @@ class PlayerMelon(Watermelon):
         self.seed_last_fired = state.time
 
     def fire_fan(self, model, seed_velocity):
-        self.fire_seed(model, seed_velocity, angle=-30)
+        fan_spread = 40
+        self.fire_seed(model, seed_velocity, angle=-fan_spread)
         self.fire_seed(model, seed_velocity, angle=0)
-        self.fire_seed(model, seed_velocity, angle=30)
+        self.fire_seed(model, seed_velocity, angle=fan_spread)
         self.seed_last_fired = state.time
 
     def can_fire(self, num_shots):
@@ -108,21 +107,15 @@ class PlayerMelon(Watermelon):
             abs_angle = self.angle + angle
             nx = math.sin(math.radians(abs_angle))
             ny = math.cos(math.radians(abs_angle))
-            print(f'ship_angle: {self.angle}')
-            print(f'rel_seed_angle: {angle}')
-            print(f'seed angle: {abs_angle}')
-            print(f'nx: {nx}, ny: {ny}')
 
             if angle == 180:
                 # adjust for no momentum since we're relying on vector sums
-                # we'd have a projectile with no momentum
+                # we'd have a projectile with no momentum  (a * 0 = 0)
                 momentum_x = seed_velocity * -self.orientation_vector_x
                 momentum_y = seed_velocity * -self.orientation_vector_y
             else:
                 momentum_x = seed_velocity * (self.orientation_vector_x + nx)
                 momentum_y = seed_velocity * (self.orientation_vector_y + ny)
-
-            print(f'mx: {momentum_x}, my: {momentum_y}')
 
             seed = Seed(self, x=self.x + watermelon_top_x, y=self.y + watermelon_top_y,
                         angle=abs_angle,

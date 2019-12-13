@@ -46,11 +46,11 @@ class TurkeyLeg(Sprite):
 
         if model:
             if self.idx % 2 == 0:
-                self.orientation_vector_x *= model.orientation_vector_x * .8
-                self.orientation_vector_y *= model.orientation_vector_y * .8
+                self.orientation_vector_x *= model.orientation_vector_x * .86
+                self.orientation_vector_y *= model.orientation_vector_y * .86
             else:
-                self.orientation_vector_x *= model.orientation_vector_y * .8
-                self.orientation_vector_y *= model.orientation_vector_x * .8
+                self.orientation_vector_x *= model.orientation_vector_y * .86
+                self.orientation_vector_y *= model.orientation_vector_x * .86
 
             if self.idx % 6 == 0:
                 self.orientation_vector_x = model.orientation_vector_x - self.orientation_vector_x
