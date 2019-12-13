@@ -118,7 +118,6 @@ class LevelOneModel:
                 rot_v = randint(-45, 45)
                 self.add_fg_element(TurkeyLeg(x=x, y=y, angle=angle, rotational_velocity=rot_v, idx=turkey_idx))
                 turkey_idx += 1
-        print("Turkey Count: " + str(turkey_idx))
 
 
 def enter(scene_args):
@@ -128,6 +127,7 @@ def enter(scene_args):
 
     model = LevelOneModel.instance()
     model.time_board.start()
+
 
 def exit():
     LevelOneModel.clear_instance()
