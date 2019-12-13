@@ -21,3 +21,4 @@ class CollisionEffect(enum.Enum):
     Nothing = enum.auto()
     Halt = enum.auto()
     Destroy = enum.auto()
+    Player = enum.auto()
