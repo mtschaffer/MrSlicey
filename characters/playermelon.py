@@ -10,6 +10,7 @@ from utils.collision import CollisionEffect
 from utils.screen_shake import screen_shake
 from utils.sprite import Collider
 from weapons.seed import Seed
+from scene.score_board import ScoreBoard
 
 
 class PlayerMelon(Watermelon):
@@ -44,6 +45,8 @@ class PlayerMelon(Watermelon):
 
         self.flame_frame = 0
         self.flame_frame_timer = 0
+
+        self.score_board = ScoreBoard.instance()
 
     # Read the keystate so we can move
     def input(self, model, keystate):
@@ -204,6 +207,7 @@ class PlayerMelon(Watermelon):
         pygame.draw.rect(screen, (255, 0, 0), (10, 10, 100, 10))
         if self.health > 0:
             pygame.draw.rect(screen, (0, 255, 0), (10, 10, 100 * self.health / self.max_health, 10))
+            pygame
 
         # velocity bar
         pygame.draw.rect(screen, (255, 0, 0), (10, 370, 10, 100))
@@ -211,6 +215,8 @@ class PlayerMelon(Watermelon):
         if bar_height > 0:
             color = (0, 255, 0) if self.velocity > 0 else (255, 192, 0)
             pygame.draw.rect(screen, color, (10, 470 - bar_height, 10, bar_height))
+
+        self.score_board.update_seed_count(self.seed_inventory)
 
     # Draw the watermelon and heath bar and potentialy game over
     def draw(self, screen):
@@ -233,3 +239,8 @@ class PlayerMelon(Watermelon):
         if effect == CollisionEffect.Halt:
             self.acceleration = self.move_velocity = self.velocity = self.health = 0
             collider.collided = True
+
+        # These effects should really be defined in the bromelon itself
+        if effect == CollisionEffect.Bromelon:
+            self.score_board.incr_score(self.seed_inventory * 20)
+            self.seed_inventory += 9

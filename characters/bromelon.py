@@ -1,6 +1,7 @@
 from characters.watermelon import Watermelon
 from utils.collision import CollisionEffect
 from utils.sprite import Collider
+from scene import state
 
 
 class BroMelon(Watermelon):
@@ -19,18 +20,15 @@ class BroMelon(Watermelon):
             model.remove_fg_element(self)
 
     def create_collider(self):
-        return Collider(self, reaction=self.collided)
+        return Collider(self, effect=CollisionEffect.Bromelon, reaction=self.collided)
 
     def collided(self, collider, effect):
         super().collided(collider, effect)
 
         if effect == CollisionEffect.Player:
-            self.apply_powerup()
+            # special effects are in PlayerMelon cuz... :|
             collider.collided = True
             self.destroyed = True
 
         elif effect == CollisionEffect.Halt:
             pass
-
-    def apply_powerup(self):
-        self.score_board.incr_score(20)
