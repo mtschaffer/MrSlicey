@@ -59,7 +59,10 @@ class SceneState:
 
         self.current_scene.enter(scene_args)
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     def fade_to(self, scene, scene_args):
         self.next_scene = scene
         self.next_scene_args = scene_args

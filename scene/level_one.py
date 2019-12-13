@@ -118,6 +118,7 @@ class LevelOneModel:
                 rot_v = randint(-45, 45)
                 self.add_fg_element(TurkeyLeg(x=x, y=y, angle=angle, rotational_velocity=rot_v, idx=turkey_idx))
                 turkey_idx += 1
+        print("Turkey Count: " + str(turkey_idx))
 
 
 def enter(scene_args):
@@ -162,7 +163,11 @@ def update(lag_scalar):
 
     score = model.score_board.instance().score
     time = model.time_board.instance().elapsed_time
+<<<<<<< Updated upstream
     if (model.watermelon.health <= 0 or score >= 23) and not model.game_over:
+=======
+    if model.watermelon.health <= 0 and not model.game_over:
+>>>>>>> Stashed changes
         model.game_over = True
         state.fade_to('game_over', {"score": score, "time": time})
 

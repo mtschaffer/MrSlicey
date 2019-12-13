@@ -5,6 +5,7 @@ import pygame
 
 from camera.camera import camera
 from scene.score_board import ScoreBoard
+from scene.time_board import TimeBoard
 from utils.sprite import Sprite, Collider
 
 IMAGE_PATH = os.path.join('images', 'watermelon.png')
@@ -23,10 +24,9 @@ class Watermelon(Sprite):
         )
         self.flame_image = pygame.image.load(os.path.join('images', 'flame.png')).convert_alpha()
 
-
-
         self.destroyed = False
         self.score_board = ScoreBoard.instance()
+        self.time_board = TimeBoard.instance()
 
         self.set_orientation_vector()
 
